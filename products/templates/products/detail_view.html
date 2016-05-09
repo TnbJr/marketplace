@@ -1,7 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>
-	Hann
-</h1>
+<!-- <div class="row"> -->
+	<h1>
+		{{ object.title }}
+	</h1>
+	<h3>
+
+	</h3>
+	{% if object.productimage_set.count > 0 %}
+		<div class="">
+		{% for img in object.productimage_set.all %}
+			<img src="{{ img.image.url }}">
+		</div>
+		{% endfor %}
+	{% endif%}
+		
+
+	{% if object.variation_set.all.count > 1 %}
+		<select class="form-cotrol">
+		{% for item in  object.variation_set.all %}
+			<option value="{{ item.id }}">
+				{{ item }}
+			</option>
+			{% endfor %}
+			</select>
+	{% else %}
+		<a href="#">Add To Cart</a>
+	{% endif %}
+	
+<!-- </div> -->
 {% endblock %}

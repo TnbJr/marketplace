@@ -38,6 +38,7 @@ class ProductModelForm(forms.ModelForm):
 			"description",
 			"price"
 		]
+
 		widgets = { "description": forms.Textarea(
 						attrs={
 							"placeholder": "New Description"
