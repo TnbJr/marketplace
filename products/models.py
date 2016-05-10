@@ -12,6 +12,8 @@ class Product(models.Model):
 	price = models.DecimalField(max_digits=100, decimal_places=2, default =9.99)
 	sales_price = models.DecimalField(max_digits=100, decimal_places=2, default = 6.99, null=True, blank=True)
 	active = models.BooleanField(default=True)
+	categories = models.ManyToManyField('Category', blank=True)
+	default = models.ForeignKey("Category", related_name='default_category', null=True, blank=True)
 	# inventory 
 
 	def __str__(self):
@@ -60,3 +62,16 @@ class ProductImage(models.Model):
 
 	def __str__(self):
 		return self.product.title
+
+class Category(models.Model):
+	title = models.CharField(max_length=120, unique=True)
+	slug = models.SlugField(unique=True)
+	description = models.TextField(blank=True, null=True)
+	active = models.BooleanField(default=True)
+	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
+
+	def __str__(self):
+		return self.title
+
+	def get_absolute_url(self):
+		return reverse('category:detail', kwargs={'slug': self.slug}) 

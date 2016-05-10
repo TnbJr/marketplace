@@ -20,7 +20,8 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^product/', include('products.urls', namespace='product'))
+    url(r'^product/', include('products.urls', namespace='product')),
+    url(r'^category/', include('products.urls_categories', namespace='category'))
 ]
 
 

@@ -1,5 +1,7 @@
 from django import forms
-from .models import Product
+
+from django.forms.models import modelformset_factory
+from .models import Product, Variation
 
 
 
@@ -39,6 +41,8 @@ class ProductModelForm(forms.ModelForm):
 			"price"
 		]
 
+
+
 		widgets = { "description": forms.Textarea(
 						attrs={
 							"placeholder": "New Description"
@@ -60,3 +64,11 @@ class ProductModelForm(forms.ModelForm):
 			raise forms.ValidationError("Title must be more then three characters")
 		else:
 			return title
+
+class VariationInnventoryForm(forms.ModelForm):
+	class Meta:
+		model = Variation
+		fields = ["price", "sales_price", "inventory"]
+
+
+VariationInventoryFormSet = modelformset_factory(Variation, form=VariationInnventoryForm, extra=0)
