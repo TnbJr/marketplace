@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>hann</h3>
+{% if not user_can_continue %}
+<div class="col-sm-6">
+<p>Sign In As Guest</p>
+<form method="POST" action="">
+	{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" class="btn btn-success" value="Guest Login"/>
+</form>
+</div>
+
+<div class="col-sm-6">
+<form method="POST" action="">
+{% csrf_token %}
+	
+{{ login_form.as_p }}
+<input type="hidden" name="next" value="{{ next_url }}">
+<input type="submit" class="btn btn-success" value="Login"/>
+</form>
+	
+</div>
+{% endif %}
+
+{% endblock %}

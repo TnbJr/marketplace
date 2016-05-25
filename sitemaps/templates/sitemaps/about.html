@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% block content %}
+{% include "navbar.html" %}
+
+<div class="jumbotron about-jumbotron">
+  <div class="container">
+    <h1>About Us</h1>
+  </div>
+</div>
+
+<div class="container container-about">
+  <div class="row">
+    <div class="col-md-4 column-about">
+      <h2>Mission</h2>
+      <p>
+        Our goal is to provide a platform for all people with interest in dabbing to come and find useful information. Whether you are a stoner or new to dabbing we are here to provide you with the information needed so you can consume weed wax safely.   
+      </p>
+    </div>
+    <div class="col-md-4 column-about">
+      <h2>Our Team</h2>
+      <p>
+        We are a team made up of marijuana connoisseurs and advocates. We are dedicated on providing useful information for Dabbers ranging from novices to experts.
+      </p>
+   </div>
+    <div class="col-md-4 column-about">
+      <h2>Contact Us</h2>
+      <p>Do you have any questions? Do you have any suggestion in regards to our content? Are you someone that wants to advertise or contribute to the site? Feel free to 
+      <a href="{% url 'contact:contact' %}">contact us.</p></a>
+    </div>
+  </div>
+</div> 
+
+
+{% endblock %}

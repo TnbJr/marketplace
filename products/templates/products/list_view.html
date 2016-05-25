@@ -2,15 +2,20 @@
 
 
 {% block content %}
-{% include 'navbar.html' %}
+
 <h1>{{ now }}</h1>
+<div class="row">
 
-{% for item in  object_list %}
+{% for product in  object_list %}
 
-<li> <a href="{{ item.get_absolute_url }}"> {{ item.title }} </li></a>
+<div class="col-xs-4">
+		{% include 'products/product_thumbnail.html' with product=product price="True" %}
+		</div>
+		{% cycle '' '' '</div><div class="row">'%}
+<!-- <li> <a href="{{ item.get_absolute_url }}"> {{ item.title }} </li></a> -->
 
 {% endfor %}
 
-
+</div>
 
 {% endblock %}

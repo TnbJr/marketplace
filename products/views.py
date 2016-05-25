@@ -1,3 +1,4 @@
+import random 
 from django.db.models import Q
 from django.http import Http404
 from django.contrib import messages 
@@ -24,8 +25,8 @@ class CategoryDetailView(DetailView):
 		obj = self.get_object()
 		product_set = obj.product_set.all()
 		default_products = obj.default_category.all()
-		products = ( product_set | default_products)
-		context['products'] = products
+		products = ( product_set | default_products).distinct()
+		context['products'] = Product.objects.get_related()
 		return context
 
 
@@ -34,9 +35,16 @@ class ProductDetailView(DetailView):
 	model = Product
 	template_name = "products/detail_view.html"
 
+	def get_context_data(self, *args, **kwargs):
+		context = super(ProductDetailView, self).get_context_data(*args, **kwargs)
+		instance = self.get_object()
+		context["related"] = sorted(Product.objects.get_related(instance)[:6], key = lambda x: random.random())
+		return context 
+
+
 class ProductListView(ListView):
 	model = Product
-	queryset = Variation.objects.all()
+	queryset = Product.objects.all()
 	template_name = "products/list_view.html"
 
 	def get_context_data(self, *args, **kwargs):
@@ -56,6 +64,8 @@ class ProductListView(ListView):
 				Q(description__icontains=query)
 				)
 		return qs
+
+
 
 class VariationListView(LoginRequiredMixin, ListView):
 	model = Variation
@@ -91,5 +101,4 @@ class VariationListView(LoginRequiredMixin, ListView):
 				
 				messages.success(request, "Your Inventory is valid")
 			return redirect("product:variation_list", pk=product_pk)
-
 		raise Http404

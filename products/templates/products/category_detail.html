@@ -5,7 +5,7 @@
 		{{ object }}
 	</h3>
 <table>
-{% for product in  object.product_set.all %}
+{% for product in  products  %}
 <tr>
 	<td>
 		<a href="{{ product.get_absolute_url }}">{{ product }}</a>

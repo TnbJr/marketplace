@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+{% include "navbar.html" %}
+  
+<div class="jumbotron share-jumbotron">
+	<div class="container">
+		<div class='row'>
+			<div class='col-md-6 col-sm-offset-3 text-center'>
+				<i class="fa fa-share-alt fa-5x"></i>
+				<h1>Thank You <br/> Help Spread The Word</h1>
+				<p>Share our link below via Email, Facebook, Twitter, Reddit, or LinkedIn.</p>
+
+				Share<br/>
+					<a href="https://www.facebook.com/sharer/sharer.php?u=http://Easydabble.com/" target="_blank">
+					<i class="fa fa-facebook-square fa-4x"></i>
+					</a>
+
+					<a href="https://twitter.com/home?status=Learn%20To%20Dab...%20%23Dabs" target="_blank">
+						<i class="fa fa-twitter-square fa-4x"></i>
+					</a>
+
+					<a href="https://www.linkedin.com/shareArticle?mini=true&url=http://easydabble.com/&title=Learn%20To%20Dab...%20&summary=%E2%80%9CWhen%20you%20smoke%20herb%2C%20it%20reveals%20you%20to%20yourself.%E2%80%9D&source=http://easydabble.com/" target="_blank">
+						<i class="fa fa-linkedin-square fa-4x"></i>
+				</a>
+				
+					<a href="http://www.reddit.com/submit?url=http://easydabble.com/&title=Learn%20To%20Dab...%20" target="_blank">
+					 	<i class="fa fa-reddit-square fa-4x"></i>
+					 </a>
+					 
+					 <a href='https://plus.google.com/share?url=http://easydabble.com/' target="_blank">
+					  	<i class="fa fa-google-plus-square fa-4x"></i>
+					  </a>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
