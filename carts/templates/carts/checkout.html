@@ -1,6 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
 <h3>hann</h3>
+<script type="text/javascript">
+	{% block jquery %}
+var clientToken = "{{ client_token }}";
+
+braintree.setup(clientToken, "dropin", {
+  container: "payment-form"
+});
+
+	{% endblock %}
+</script>
+
+
 {% if not user_can_continue %}
 <div class="col-sm-6">
 <p>Sign In As Guest</p>
@@ -20,6 +32,20 @@
 <input type="submit" class="btn btn-success" value="Login"/>
 </form>
 	
+</div>
+{% else %}
+<div class="col-sm-4 sol-sm-offset-4">
+	
+{% include "orders/order_summary.html" with order=order %}
+<p>
+	<a href="{% url 'order:address_select' %}"> Channge Adress</a>
+</p>
+
+<form id="checkout"  method='POST' action="{% url 'cart:final' %}">{% csrf_token %}
+<!-- <input type='hidden' name='payment_token' value='ABC' /> -->
+<div id="payment-form"></div>
+<p><b><button type='submit'>Complete Order</button></b></p>
+</form>
 </div>
 {% endif %}
 

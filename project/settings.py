@@ -140,3 +140,16 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media_root") 
 
 SITE_ID = 1
+
+import braintree
+
+BRAINTREE_PUBLIC = "p4v5v4njf7bmf46f"
+BRAINTREE_MERCHANT_ID = "ynx2rhxtz858qg74"
+BRAINTREE_PRIVATE = "b95b7b2b930dc312d353131f7e24ad0b"
+BRAINTREE_ENVIRONMENT = "sandbox"
+braintree.Configuration.configure(braintree.Environment.Sandbox,
+                                  merchant_id="ynx2rhxtz858qg74",
+                                  public_key="p4v5v4njf7bmf46f",
+                                  private_key="b95b7b2b930dc312d353131f7e24ad0b")
+
+
