@@ -2,5 +2,39 @@
 
 {% block content %}
 
-	<h3>Hann</h3>
+	<div class="upper-content">
+		{% include 'sitemaps/test.html' %}
+		
+		</section>
+		<section class="row main-inner-content">
+			<aside class="col-sm-3 sidebar">
+				<div class="side-products">
+					<h2>Best Sellers</h2>
+				</div>
+				<div class="side-products" id="side-search">
+					<h2>Best Sellers</h2>
+				</div>
+
+				<div class="side-products">
+					<h2>Products</h2>
+				</div>
+			</aside>
+			
+			<div class="col-sm-9">
+				<div class="row home-product-display" id="featured-product">
+									{% include 'sitemaps/featured_products.html' %}
+
+				</div>
+				<div class="row home-product-display" id="marketing-display">
+					<h1>Buy My Shit</h1>
+				</div>
+				<div class="row home-product-display" id="latest-product">
+					<h1>Latest Product</h1>
+				</div>
+			</div>
+		</section>
+	</div>
+	
+	<!-- {{ products }} -->
+
 {% endblock %}

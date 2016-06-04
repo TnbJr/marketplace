@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'orders',
     'sitemaps',
 
+    'django_filters',
     'allauth',
     'allauth.account',
     'allauth.socialaccount'

@@ -6,12 +6,15 @@ from django.utils import timezone
 from itertools import chain
 from operator import attrgetter
 
+
+from products.models import Product
 #combines quersets from diffrent tables
 # from .utils import query_chain
 
 # Create your views here.
 class IndexView(View):
 	def get(self, request):
+		products = Product.objects.all()
 		# page_template = 'post.html'
 		template = 'sitemaps/index.html'
 		# form = SignUpForm(request.POST or None)
@@ -31,6 +34,7 @@ class IndexView(View):
 		# 	# If page is out of range (e.g. 9999), deliver last page of results.
 		# 	queryset = paginator.page(paginator.num_pages)
 		context = {
+			"products": products
 			# "signup_form": form,
 			# "query": queryset,
 			# "main_featured": featured_item.first(), 

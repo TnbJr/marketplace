@@ -1,0 +1,87 @@
+.crsl-item .image-block {
+  display: block;
+  position: relative;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.container{
+	background-color: #F0F0F0;
+}
+
+p.caption-p{
+    position: relative;
+    font-size: 30px;
+}
+
+.carousel-caption{
+	color: green;
+    background: rgba(255,255,255,0.5);
+    display: block;
+    left: 0%;
+	right: 80%;
+    bottom: 0%;
+    min-height: 100%;
+}
+
+
+.upper-content{
+/*	height: 1490px;
+	width: 1000px;*/
+}
+.upper-content-row{
+	background-color: red;
+	min-height: 400px;
+}
+
+.content-slider{
+	background-color: green;
+	min-height: 300px;
+}
+
+.marketing-banner{
+	background-color: yellow;
+	min-height: 300px;
+}
+
+.content-stacked{
+	background-color: purple;
+	max-height: 100px;
+	min-height: 100px;
+	margin-bottom: 10px;
+}
+.main-inner-content{
+	background-color: orange;
+	margin-top: 10px;
+}
+
+.sidebar{
+	background-color: pink;
+}
+
+.home-product-display{
+	background-color: blue;
+	/*height: 200px;*/
+}
+#featured-product{
+	background-color: #63B8FF;
+}
+#marketing-display{
+	background-color: white;
+
+}
+
+footer{
+	background-color: red;
+}

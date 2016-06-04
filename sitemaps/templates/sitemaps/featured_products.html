@@ -1,0 +1,109 @@
+
+
+{% load static %}
+
+{% block content %}
+<!-- <div class="col-sm-9">
+	
+
+<section class="row" style=""> -->
+
+<!-- <div class="image-block" style="border: 1px solid #73a930; height: 305px; width: 212px; position: relative;"> 
+	<img width="100%" height="212" src="{% static "sitemaps/img/jamaican-food.jpg" %}" style="vertical-align: top;">
+	<h3 class="text-center lead product-info" style="margin-top: 5px; margin-bottom: 0;" > Food</h3>
+	<h3 class="text-center lead product-info" style="margin-top: 5px; margin-bottom: 0;" > 19.00</h3>
+</div> -->
+   <div id="w">
+    <div class="slidernav">
+    	<h2 class="product-row-title" style=""> Featured Product</h2>
+      <div id="navbtns">
+        <a href="#" class="previous"><i class="fa fa-arrow-circle-o-left fa-arrow fa-2x" aria-hidden="true"></i></a>
+        <a href="#" class="next"><i class="fa fa-arrow-circle-o-right fa-arrow fa-2x" aria-hidden="true"></i></a>
+      </div>
+      <div class="clearfix "></div>
+    </div>
+    
+    <div class="crsl-items" data-navigation="navbtns">
+      <div class="crsl-wrap">
+        <div class="crsl-item">
+          <div class="thumbnail">
+            <img width="212" height="212" src="{% static "sitemaps/img/jamaican-food.jpg" %}" alt="nyc subway">
+            <span class="postdate">Feb 16, 2014</span>
+          </div>
+          
+          <h3 class="text-center lead product-title"><a href="#">Lorem Ipsum Dolor Sit</a></h3>
+          <h3 class="text-center lead"> $19.00</h3>
+        
+          
+        </div><!-- post #1 -->
+        
+        <div class="crsl-item">
+          <div class="thumbnail">
+            <img src="{% static "sitemaps/img/healthier-you-store.jpg" %}" alt="danny antonucci">
+            <span class="postdate">Feb 19, 2014</span>
+          </div>
+          
+          <h3 class="text-center lead"><a href="#">A Look Back over A.K.A Cartoon</a></h3>
+ 		<h3 class="text-center lead"> $19.00</h3> 
+        </div><!-- post #2 -->
+        
+        <div class="crsl-item">
+          <div class="thumbnail">
+            <img src="{% static "sitemaps/img/heathier-you-drinks.jpg" %}" alt="watercolor paints">
+            <span class="postdate">Feb 23, 2014</span>
+          </div>
+          
+          <h3 class="text-center lead"><a href="#">Watercoloring for Beginners</a></h3>
+          <h3 class="text-center lead"> $19.00</h3>
+          
+          
+        </div><!-- post #3 -->
+        
+        <div class="crsl-item">
+          <div class="thumbnail">
+            <img src="{% static "sitemaps/img/medicine.jpg" %}" alt="apple ipod classic photo">
+            <span class="postdate">Mar 02, 2014</span>
+          </div>
+          
+          <h3 class="text-center lead"><a href="#">Classic iPods are Back!</a></h3>
+          <h3 class="text-center lead"> $19.00</h3>
+          
+        </div><!-- post #4 -->
+        
+        <div class="crsl-item">
+          <div class="thumbnail">
+            <img src="img/thumb05.jpg" alt="web design magazines">
+            <span class="postdate">Mar 11, 2014</span>
+          </div>
+          
+          <h3 class="text-center lead"><a href="#">The 10 Best Web Design Magazines</a></h3>
+          <h3 class="text-center lead"> $19.00</h3>
+       
+        </div><!-- post #5 -->
+      </div><!-- @end .crsl-wrap -->
+    </div><!-- @end .crsl-items -->
+    
+  </div><!-- @end #w -->
+
+<!--  </section>
+ </div> -->
+{% endblock%}
+
+
+<script>
+{% block jquery %}
+$(function(){
+  $('.crsl-items').carousel({
+    visible: 2,
+    itemMinWidth: 180,
+    itemEqualHeight: 305,
+    itemMargin: 9,
+  });
+  
+  $("a[href=#]").on('click', function(e) {
+    e.preventDefault();
+  });
+});
+{% endblock %}
+
+</script>

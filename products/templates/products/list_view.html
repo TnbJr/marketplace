@@ -3,19 +3,7 @@
 
 {% block content %}
 
-<h1>{{ now }}</h1>
-<div class="row">
+<h1>All Products</h1>
 
-{% for product in  object_list %}
-
-<div class="col-xs-4">
-		{% include 'products/product_thumbnail.html' with product=product price="True" %}
-		</div>
-		{% cycle '' '' '</div><div class="row">'%}
-<!-- <li> <a href="{{ item.get_absolute_url }}"> {{ item.title }} </li></a> -->
-
-{% endfor %}
-
-</div>
-
+{% include "products/products.html" with object_list=object_list %}
 {% endblock %}
