@@ -5,13 +5,9 @@
 		<h1>Add a photo</h1>
 	{% endif %}
 	<div class="caption">
-		<h3> <a href="{{ product.get_absolute_url }}">
-			{{ product.title }}</a></h3>
+		<h3> <a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h3>
 	</div>
 	{% if price == "True" %}
-	<!-- <h2>hann</h2> -->
-		<p>
-			{{ product.variation_set.first.get_html_price }}	
-		</p>
+		<p> {{ product.variation_set.first.get_html_price }}</p>
 	{% endif %}
 </div>

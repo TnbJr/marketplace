@@ -14,7 +14,7 @@ from products.models import Product
 # Create your views here.
 class IndexView(View):
 	def get(self, request):
-		products = Product.objects.all()
+		products = Product.objects.all().select_related()
 		# page_template = 'post.html'
 		template = 'sitemaps/index.html'
 		# form = SignUpForm(request.POST or None)
