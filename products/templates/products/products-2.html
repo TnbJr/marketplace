@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block  content %}
+
+<section class="main-content">
+	<div class="row">						
+		<div class="span9">								
+			<ul class="thumbnails listing-products">
+			{% for product in object_list %}
+				<li class="span3">
+					<div class="product-box">
+						<span class="sale_tag"></span>												
+						<a href="{{ product.get_absolute_url }}"><img alt="" src="{{ product.get_image_url }}"></a><br/>
+						<a href="{{ product.get_absolute_url }}" class="title">{{ product.title }}</a><br/>
+						<a href="#" class="category">Add to Category</a>
+						<p class="price">{{ product.price }}</p>
+					</div>
+				</li>   
+			{% endfor %}    
+			</ul>								
+			<hr>
+			<div class="pagination pagination-small pagination-centered">
+				<ul>
+					<li><a href="#">Prev</a></li>
+					<li class="active"><a href="#">1</a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">Next</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

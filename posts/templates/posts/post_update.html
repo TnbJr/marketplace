@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+ <div class="container post-container">
+  <h1>{{ title }}</h1>
+
+	{% if form %}
+		<form name="content-update" action="{% url 'post:update' slug=object.slug %}" method="POST">
+	    {% csrf_token %}
+	    {{ form|crispy }}
+		<input type="submit" value="Update Content">
+		</form>
+		<button><a href="{% url 'post:delete' slug=object.slug %}">Delete</a></button>	
+	{% endif %}
+</div>
+{% endblock %}

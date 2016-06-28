@@ -1,8 +1,6 @@
 import braintree
 
 from django.conf import settings
-
-
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.urlresolvers import reverse
@@ -13,10 +11,12 @@ from django.views.generic.detail import SingleObjectMixin, DetailView
 from django.views.generic.edit import FormMixin
 
 from orders.models import UserCheckout, Order, UserAddress
-from orders.forms import GuestCheckoutForm
+from orders.forms import GuestCheckoutForm, UsertAddressForm
 from orders.mixins import CartOrderMixin
 from products.models import Variation
 from .models import Cart, CartItem
+
+from allauth.account.forms import LoginForm
 
 # Create your views here.
 
@@ -123,7 +123,7 @@ class CartView(SingleObjectMixin, View):
 class CheckOutView(CartOrderMixin, FormMixin, DetailView):
 	model = Cart
 	template_name = "carts/checkout.html"
-	form_class = GuestCheckoutForm
+	form_class = UsertAddressForm
 
 	def get_object(self, *args, **kwargs):
 		cart = self.get_cart()
@@ -143,7 +143,7 @@ class CheckOutView(CartOrderMixin, FormMixin, DetailView):
 			context["client_token"] = user_checkout.get_client_token()
 			self.request.session["user_checkout_id"] = user_checkout.id
 		elif not self.request.user.is_authenticated() and user_checkout_id == None:
-			context["login_form"] = AuthenticationForm()
+			context["login_form"] = LoginForm
 			context["next_url"] = self.request.build_absolute_uri()
 		else:
 			pass
@@ -183,7 +183,7 @@ class CheckOutView(CartOrderMixin, FormMixin, DetailView):
 		if user_checkout_id != None:
 			user_checkout = UserCheckout.objects.get(id=user_checkout_id)
 			if new_order.billing_address == None or new_order.shipping_address == None:
-				print("oh shit")
+				print("needs address")
 				return redirect("order:address_select")
 			new_order.user = user_checkout
 			new_order.save()

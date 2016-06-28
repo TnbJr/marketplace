@@ -8,33 +8,17 @@ from operator import attrgetter
 
 
 from products.models import Product
-#combines quersets from diffrent tables
-# from .utils import query_chain
 
 # Create your views here.
 class IndexView(View):
 	def get(self, request):
-		products = Product.objects.all().select_related()
+		feature_product = Product.objects.filter(featured=False)[:8]
+		latest_product = Product.objects.filter(featured=True).order_by('-added_date')
 		# page_template = 'post.html'
 		template = 'sitemaps/index.html'
-		# form = SignUpForm(request.POST or None)
-		# query = query_chain()
-		# featured_item = ProductReview.objects.filter(featured=True)
-		# paginator = Paginator(query, 5) # Show 10 contacts per page
-		# page = request.GET.get('page')
-		# try:
-		# 	queryset = paginator.page(page)
-		# except PageNotAnInteger:
-		# 	# If page is not an integer, deliver first page.
-		# 	queryset = paginator.page(1)
-		# except EmptyPage:
-		# 	if request.is_ajax():
-		# 		print(request.GET)
-		# 		return HttpResponse('')
-		# 	# If page is out of range (e.g. 9999), deliver last page of results.
-		# 	queryset = paginator.page(paginator.num_pages)
 		context = {
-			"products": products
+			"latest_products": latest_product,
+			"feature_product": feature_product,
 			# "signup_form": form,
 			# "query": queryset,
 			# "main_featured": featured_item.first(), 
@@ -51,3 +35,35 @@ class AboutView(View):
 class ShareView(View):
 	def get(self, request):
 		return render(request, 'sitemaps/share.html')
+
+# class ContactView(View):
+# 	title = "Contact Us"
+# 	form = ContactForm
+# 	template = "contacts/contact.html"
+# 	def get(self, request):
+# 		context ={
+# 			"title": self.title,
+# 			"form": self.form(request.POST or None),
+# 		}
+# 		return render(request, self.template, context)
+
+# 	def post(self, request):
+# 		form = self.form(request.POST or None)
+# 		if form.is_valid():
+# 			name = form.cleaned_data['name']
+# 			subject = form.cleaned_data['subject']
+# 			message = form.cleaned_data['message']
+# 			emailFrom = form.cleaned_data['email']
+# 			emailTo = [settings.EMAIL_HOST_USER]
+# 			send_mail(subject, message, emailFrom, emailTo, fail_silently=False)
+# 			form.save()
+# 			messages.success(request, 'We have received your message')
+# 			return redirect('contact:contact')
+# 		context ={
+# 		"title": self.title,
+# 		"form": self.form(request.POST or None),
+# 		}
+# 		return render(request, self.template, context)
+
+
+

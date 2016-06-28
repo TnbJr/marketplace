@@ -70,7 +70,7 @@ class AddressSelectFormView(CartOrderMixin, FormView):
 		b_address, s_address = self.get_addresses()
 
 		if b_address.count() == 0:
-			messages.success(self.request, "Please adda billing address before checking out")
+			messages.success(self.request, "Please add a billing address before checking out")
 			return redirect("order:address_create")
 		elif s_address.count() == 0:
 			return redirect("order:address_create")

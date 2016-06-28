@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container post-container">
+  <h1>{{ title }}</h1>
+
+  <form name="profile-delete" action="{% url 'profile:delete' %}" method="POST">
+	    {% csrf_token %}
+		<input type="submit" value="Delete Content">
+		</form>	
+	
+</div>
+
+{% endblock %}

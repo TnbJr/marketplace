@@ -3,67 +3,63 @@
 
 
 {% block content %}
-
-	<div id="top-bar" class="container">
-			<div class="row">
-				<div class="span4">
-					<form method="POST" class="search_form">
-						<input type="text" class="input-block-level search-query" Placeholder="eg. T-sirt">
-					</form>
-				</div>
-				<div class="span8">
-					<div class="account pull-right">
-						<ul class="user-menu">				
-							<li><a href="#">My Account</a></li>
-							<li><a href="cart.html">Your Cart</a></li>
-							<li><a href="checkout.html">Checkout</a></li>					
-							<li><a href="register.html">Login</a></li>		
-						</ul>
+<div id="wrapper" class="container">
+	{% include 'sitemaps/main-slider.html' %}
+	<section class="main-content">
+		{% include 'sitemaps/content.html' with products=feature_product title='Featured' %}
+	</section>
+	<section class="our_client">
+		<div class="row feature_box">						
+			<div class="span6" id="right-marketing-span">	
+				<div class="service">
+					<div class="customize">
+						<div class="left-side-banner pull-left">
+							<i class="fa fa-truck fa-4x" aria-hidden="true"></i>
+						</div>			
+						<h4>FREE <strong>SHIPPING</strong></h4>
+						<p>All Orders over $100 recieves free shipping.</p>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div id="wrapper" class="container">
-			
-			{% include 'sitemaps/navbar.html' %}
-
-			{% include 'sitemaps/main-slider.html' %}
-
-			<section class="header_text">
-				We stand for top quality templates. Our genuine developers always optimized bootstrap commercial templates. 
-				<br/>Don't miss to use our cheap abd best bootstrap templates.
-			</section>
-			
-			<section class="main-content">
-				{% include 'sitemaps/content.html' %}
-			</section>
-
-			<section class="our_client">
-				<h4 class="title"><span class="text">Manufactures</span></h4>
-				<div class="row">					
-					<div class="span2">
-						<a href="#"><img alt="" src="{% static "sitemaps/images/clients/14.png" %}"></a>
-					</div>
-					<div class="span2">
-						<a href="#"><img alt="" src="{% static "sitemaps/images/clients/35.png" %}"></a>
-					</div>
-					<div class="span2">
-						<a href="#"><img alt="" src="{% static "sitemaps/images/clients/1.png" %}"></a>
-					</div>
-					<div class="span2">
-						<a href="#"><img alt="" src="{% static "sitemaps/images/clients/2.png" %}"></a>
-					</div>
-					<div class="span2">
-						<a href="#"><img alt="" src="{% static "sitemaps/images/clients/3.png" %}"></a>
-					</div>
-					<div class="span2">
-						<a href="#"><img alt="" src="{% static "sitemaps/images/clients/4.png" %}"></a>
+			<div class="span6" id="left-marketing-span">
+				<div class="service">
+					<div class="support">	
+						<div class="left-side-banner pull-left">
+							<i class="fa fa-phone fa-4x" aria-hidden="true"></i>
+						</div>	
+						<h4>Call Us: <strong>516-888-9090</strong></h4>
+						<p>We are here to support your healthier descisons Give us a call</p>
 					</div>
 				</div>
-			</section>
-			{% include 'sitemaps/footer.html' %}
+			</div>	
 		</div>
-	
-	<!-- {{ products }} -->
+	</section>
+	{% include 'sitemaps/content.html' with products=latest_products title='Latest' %}
+
+	<section class="our_client">
+		<h4 class="title"><span class="text">Manufactures</span></h4>
+		<div class="row">					
+			<div class="span2">
+				<a href="#"><img alt="" src="{% static "sitemaps/images/clients/14.png" %}"></a>
+			</div>
+			<div class="span2">
+				<a href="#"><img alt="" src="{% static "sitemaps/images/clients/35.png" %}"></a>
+			</div>
+			<div class="span2">
+				<a href="#"><img alt="" src="{% static "sitemaps/images/clients/1.png" %}"></a>
+			</div>
+			<div class="span2">
+				<a href="#"><img alt="" src="{% static "sitemaps/images/clients/2.png" %}"></a>
+			</div>
+			<div class="span2">
+				<a href="#"><img alt="" src="{% static "sitemaps/images/clients/3.png" %}"></a>
+			</div>
+			<div class="span2">
+				<a href="#"><img alt="" src="{% static "sitemaps/images/clients/4.png" %}"></a>
+			</div>
+		</div>
+	</section>
+</div>
+
 
 {% endblock %}

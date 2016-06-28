@@ -1,5 +1,5 @@
 import random 
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.http import Http404
 from django.contrib import messages 
@@ -14,6 +14,7 @@ from .forms import ProductModelForm, VariationInventoryFormSet
 from .mixins import StaffRequiredMixin, LoginRequiredMixin
 from .models import Product, Variation, Category
 
+from  django.views.generic.list import MultipleObjectMixin
 # Create your views here.
 
 class CategoryListView(ListView):
@@ -25,25 +26,39 @@ class CategoryDetailView(DetailView):
 	model = Category
 	template_name = "products/category_detail.html"
 
+
 	def get_context_data(self, *args, **kwargs):
 		context = super(CategoryDetailView, self).get_context_data(*args, **kwargs)
 		obj = self.get_object()
 		product_set = obj.product_set.all()
 		default_products = obj.default_category.all()
-		products = ( product_set | default_products).distinct()
-		context['products'] = Product.objects.get_related()
+		category_products = ( product_set | default_products).distinct()
+		paginator = Paginator(category_products, 6) # Show 25 contacts per page
+		page = self.request.GET.get('page')
+		try:
+			products = paginator.page(page)
+		except PageNotAnInteger:
+			# If page is not an integer, deliver first page.
+			products = paginator.page(1)
+		except EmptyPage:
+		# If page is out of range (e.g. 9999), deliver last page of results.
+			contacts = paginator.page(paginator.num_pages)
+		context['products'] = products
 		return context
 
 
 
 class ProductDetailView(DetailView):
 	model = Product
-	template_name = "products/detail_view.html"
+	template_name = "products/product_detail.html"
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(ProductDetailView, self).get_context_data(*args, **kwargs)
 		instance = self.get_object()
+		images = instance.productimage_set.all()
+		images = images[1:5]
 		context["related"] = sorted(Product.objects.get_related(instance)[:6], key = lambda x: random.random())
+		context["images"] = images
 		return context 
 
 
@@ -61,13 +76,13 @@ class ProductFilter(FilterSet):
 			'description',
 		]
 
-def product_list(request):
-	qs = Product.objects.all()
-	ordering = request.GET.get("ordering")
-	if ordering:
-		qs = Product.objects.all().order_by(ordering)
-	f = ProductFilter(request.GET, queryset=qs)
-	return render(request, "products/list_view.html", {"object_list": f})
+# def product_list(request):
+# 	qs = Product.objects.all()
+# 	ordering = request.GET.get("ordering")
+# 	if ordering:
+# 		qs = Product.objects.all().order_by(ordering)
+# 	f = ProductFilter(request.GET, queryset=qs)
+# 	return render(request, "products/list_view.html", {"object_list": f})
 
 
 
@@ -95,17 +110,15 @@ class FilterMixin(object):
 		return context
 
 
-class ProductListView(FilterMixin, ListView):
+class ProductListView(ListView, FilterMixin):
 	model = Product
 	queryset = Product.objects.all()
-	template_name = "products/list_view.html"
+	paginate_by = 6
+	template_name = "products/products-2.html"
 	filter_class = ProductFilter
 
 	def get_context_data(self, *args, **kwargs):
-	    # Call the base implementation first to get a context
 	    context = super(ProductListView, self).get_context_data(*args, **kwargs)
-	    # Add in the publisher
-	    context['now'] = timezone.now()
 	    context['query'] = self.request.GET.get("q")
 	    return context
 
@@ -159,7 +172,6 @@ class VariationListView(LoginRequiredMixin, ListView):
 				product = get_object_or_404(Product, pk=product_pk)
 				new_item.product = product
 				new_item.save()
-				
 				messages.success(request, "Your Inventory is valid")
 			return redirect("product:variation_list", pk=product_pk)
 		raise Http404

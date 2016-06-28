@@ -6,38 +6,24 @@
 	<!-- <script src="{% static 'js/alertMessage.js' %}"></script> -->
 	<!-- <script src="{% static 'sitemaps/js/responsiveCarousel.min.js' %}"></script> -->
 	<script src="{% static 'sitemaps/js/superfish.js' %}"></script>	
-	<script src="{% static 'sitemaps/js/jquery.scrolltotop.js' %}"></script>
-
-	<script src="{% static 'sitemaps/js/common.js' %}"></script>
 	<script src="{% static 'sitemaps/js/jquery.flexslider-min.js' %}"></script>
-		<script type="text/javascript">
-			$(function() {
-				$(document).ready(function() {
-					console.log("hans")
-					$('.flexslider').flexslider({
-						animation: "fade",
-						slideshowSpeed: 4000,
-						animationSpeed: 600,
-						controlNav: false,
-						directionNav: true,
-						controlsContainer: ".flex-container" // the container that holds the flexslider
-					});
+	<script src="{% static 'sitemaps/js/jquery.fancybox.js' %}"></script>
+	<script type="text/javascript">
+			$(document).ready(function() {
+				console.log("javascript.html")
+				$('.flexslider').flexslider({
+					animation: "fade",
+					slideshowSpeed: 4000,
+					animationSpeed: 600,
+					controlNav: false,
+					directionNav: true,
+					controlsContainer: ".flex-container" // the container that holds the flexslider
 				});
 			});
-		</script>
-	<script type="text/javascript">
-	// $(document).ready(function(){
-	// $('.crsl-items').carousel({
-	// visible: 2,
-	// itemMinWidth: 180,
-	// itemEqualHeight: 305,
-	// itemMargin: 9,
-	// });
-
-	// $("a[href=#]").on('click', function(e) {
-	// e.preventDefault();
-	// });
-	{% block jquery %}
-	{% endblock %}
-	// });
+	</script>
+	<script>	
+		$(document).ready(function(){
+			{% block jquery %}
+			{% endblock %}
+		});
 	</script>

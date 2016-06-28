@@ -1,0 +1,94 @@
+img.cart-img {
+    height: 100px;
+    width: 200px;
+}
+
+table{
+	table-layout:fixed;
+}
+
+input[type="number"]{
+	width: 100%;
+}
+
+.checkout-button{
+	background-color: red;
+}
+
+#order-checkout{
+	margin: 0 20%;
+}
+#order-checkout .table td{
+	text-align: center;
+}
+
+.checkout-container{
+	width: 950px;
+	position: relative;
+	min-height: 600px;
+	background-color: red;
+}
+
+.checkout-radio{
+	display:inline-block;
+	width:20%;
+	margin-bottom: 20px;
+}
+
+#checkout-method{
+	border-bottom: 10px solid black;
+	padding-left: 10px;
+}
+
+.checkout-radio label{
+	display: inline-block; 
+	vertical-align:sub;
+	text-align: left;
+	font-size: 16px;
+}
+
+#ch-wrapper .checkout-radio {
+    display: inline-block;
+    width: 110px;
+    margin-bottom: 20px;
+}
+
+.ffCheckboxWrapper, .ffRadioWrapper {
+    display: inline-block;
+}
+
+.ffCheckbox, .ffRadio {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.ffCheckbox:before, .ffRadio:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 24px;
+    height: 24px;
+    background: #fff;
+    border: 1px solid #c8cbcc;
+}
+
+.ffRadioWrapper.on .ffRadio:before {
+    border: 8px solid #0286cd;
+}
+.ffRadio:before {
+    border-radius: 50%;
+}
+
+#ch-wrapper .checkout-method {
+    line-height: 18px;
+    padding-left: 30px;
+}
+
+#ch-wrapper .checkout-method span {
+    font-weight: bold;
+    font-size: 16px;
+}

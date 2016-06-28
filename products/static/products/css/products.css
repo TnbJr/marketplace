@@ -1,0 +1,31 @@
+.container{
+	background-color: white;
+}
+.main-container{
+	margin-top: 10px; 
+}
+
+
+.product-detail{
+	padding-left: 10px;
+}
+
+.thumbnail{
+	padding: 0px;
+}
+.product-thumbnail{
+	border: 0px;
+}
+
+.product-title{
+	margin: 0px;
+}
+
+.product-thumbnail>img{
+	min-height: 200px;
+	width: 100%;
+}
+
+section.main-content.container {
+    margin-top: 5%;
+}

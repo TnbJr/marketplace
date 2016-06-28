@@ -42,7 +42,12 @@ INSTALLED_APPS = [
     'carts',
     'orders',
     'sitemaps',
+    'posts',
+    'users',
+    'contacts',
+    'newsletters',
 
+    'crispy_forms',
     'django_filters',
     'allauth',
     'allauth.account',
@@ -124,6 +129,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+CRISPY_TEMPLATE_PACK = 'uni_form'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
@@ -153,4 +160,6 @@ braintree.Configuration.configure(braintree.Environment.Sandbox,
                                   public_key="p4v5v4njf7bmf46f",
                                   private_key="b95b7b2b930dc312d353131f7e24ad0b")
 
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = True
 

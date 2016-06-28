@@ -34,6 +34,8 @@ class Product(models.Model):
 	active = models.BooleanField(default=True)
 	categories = models.ManyToManyField('Category', blank=True)
 	default = models.ForeignKey("Category", related_name='default_category', null=True, blank=True)
+	added_date = models.DateTimeField()
+	featured = models.BooleanField(default=False)
 	# inventory 
 
 	objects = ProductManager()
@@ -49,12 +51,14 @@ class Product(models.Model):
 		if img:
 			return img.image.url
 		return img
+	def get_category(self):
+		return self.default
 
 class Variation(models.Model):
 	product = models.ForeignKey(Product)
 	title = models.CharField(max_length=120)
-	price = models.DecimalField(max_digits=100, decimal_places=2, default =9.99)
-	sales_price = models.DecimalField(max_digits=100, decimal_places=2, default = 6.99, null=True, blank=True)
+	price = models.DecimalField(max_digits=20, decimal_places=2)
+	sales_price = models.DecimalField(max_digits=20, decimal_places=2, null=True, blank=True)
 	active = models.BooleanField(default=True)
 	inventory = models.IntegerField(null=True, blank=True )
 
@@ -88,7 +92,7 @@ class Variation(models.Model):
 		return "%s - %s" %(self.product.title, self.title)
 
 
-def product_pre_save_reciever(sender, instance, *args, **kwargs):
+def slug_pre_save_reciever(sender, instance, *args, **kwargs):
 	if not instance.slug:
 		instance.slug = slugify(instance.title)
 
@@ -103,7 +107,7 @@ def product_post_save_reciever(sender, instance, *args, **kwargs):
 		new_var.save()
 
 
-pre_save.connect(product_pre_save_reciever, sender=Product)
+pre_save.connect(slug_pre_save_reciever, sender=Product)
 post_save.connect(product_post_save_reciever, sender=Product)
 
 
@@ -126,4 +130,6 @@ class Category(models.Model):
 		return self.title
 
 	def get_absolute_url(self):
-		return reverse('category:detail', kwargs={'slug': self.slug}) 
+		return reverse('category:detail', kwargs={'slug': self.slug})
+
+pre_save.connect(slug_pre_save_reciever, sender=Category)

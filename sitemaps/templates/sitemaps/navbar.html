@@ -1,29 +1,55 @@
 {% load staticfiles %}
 
+
+{% block content %}
+<div id="top-bar" class="">
+	<div class="row">
+		<span class="span4" id="index-search">
+			<form method="GET" class="search_form" role="search" action="{% url 'product:list' %}" >
+				<input type="text" class="input-block-level search-query form-control" Placeholder="Search" name="q">
+			</form>
+		</span>
+		<span class="span8 nav-info pull-right">
+			<div class="account">
+				<ul class="user-menu">
+				{% if user.is_anonymous %}
+					<li><a href="{% url 'account_login' %}">Login</a></li>
+					<li><a href="{% url 'account_signup' %}">Register</a></li>
+				{% else %}
+				<li><a href="">My Account</a></li>
+					<li><a href="{% url 'account_logout' %}">Sign Out</a></li>
+				{% endif %}				
+				<li><a href="{% url 'cart:main' %}">Your Cart</a></li>
+					
+				</ul>
+			</div>
+		</span>
+	</div>
+</div>
 <section class="navbar main-menu">
 	<div class="navbar-inner main-menu">
-		<a href="index.html" class="logo pull-left"><img src="{% static "sitemaps/images/logo.png" %}" class="site_logo" alt=""></a>
+		<a href="{% url 'sitemap:index' %}" class="logo pull-left"><img src="{% static "sitemaps/images/logo.png" %}" class="site_logo" alt=""></a>
 		<nav id="menu" class="pull-right">
 			<ul>
-				<li><a href="./products.html">Woman</a>					
+				<li><a href="{% url 'category:detail' slug="vitamins" %}">Vitamins</a>					
 					<ul>
-						<li><a href="./products.html">Lacinia nibh</a></li>									
-						<li><a href="./products.html">Eget molestie</a></li>
-						<li><a href="./products.html">Varius purus</a></li>									
+						<li><a href="">Vitamin D</a></li>				
+						<li><a href="">Deez</a></li>
+						<li><a href="">Nutz</a></li>			
 					</ul>
 				</li>															
-				<li><a href="./products.html">Man</a></li>			
-				<li><a href="./products.html">Sport</a>
+				<li><a href="{% url 'category:detail' slug="food" %}">Food</a></li>			
+				<li><a href="{% url 'post:index-post' %}">Blog</a>
 					<ul>									
-						<li><a href="./products.html">Gifts and Tech</a></li>
-						<li><a href="./products.html">Ties and Hats</a></li>
-						<li><a href="./products.html">Cold Weather</a></li>
+						<li><a href="">Gifts and Tech</a></li>
+						<li><a href="">Ties and Hats</a></li>
+						<li><a href="">Cold Weather</a></li>
 					</ul>
 				</li>							
-				<li><a href="./products.html">Hangbag</a></li>
-				<li><a href="./products.html">Best Seller</a></li>
-				<li><a href="./products.html">Top Seller</a></li>
+				<li><a href="">Books</a></li>
+				<li><a href="">Other</a></li>
 			</ul>
 		</nav>
 	</div>
 </section>
+		{% endblock %}

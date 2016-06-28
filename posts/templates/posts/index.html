@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+
+<div class="container post-container">
+	<aside class="pull-right">
+		{% include 'sidebar.html' %}
+	</aside>
+	<section class="span8">	
+		{% for obj in posts %}
+			<div class="row ">
+				<div class="span5 col-md-push-7">
+					<a href="{{ obj.get_absolute_url }}">
+					{% if obj.image %}
+					<img class="featurette-image img-responsive center-block" data-src=""  src="{{ obj.image.url }}" alt="{{ obj.title }}" style="width:375px; height:250px;"/>
+					</a>
+					{% endif %}
+				</div>
+				<div class="span7 col-md-pull-5">
+					<div class="post-cate">
+						<a href="{{ obj.get_section_url }}">{{ obj.categories|title }}</a>
+					</div>
+					<h2 class="featurette-heading post-featurette-heading" >
+						<a href="{{ obj.get_absolute_url }}">
+					{{ obj.title|title }}
+					</h2></a>
+					<div class="post-meta text-muted">
+						{{ obj.created|date:" M  d Y" }}
+					</div>
+					<p class="lead post-para" >
+						{{ obj.content|truncatewords:20 }}
+					</p>
+					{% if request.user.is_staff %}
+					    <a href="{% url 'post:update' slug=obj.slug %}">Update</a>
+					    {% endif %}
+					    </a>
+										
+				</div>
+				
+			</div>
+			<hr>
+		{% endfor %}	
+	</section>
+
+		<div class="pagination">
+		    <span class="step-links">
+		        {% if queryset.has_previous %}
+		            <a href="?page={{ queryset.previous_page_number }}">previous</a>
+		        {% endif %}
+
+		        <span class="current">
+		            Page {{ queryset.number }} of {{ queryset.paginator.num_pages }}.
+		        </span>
+
+		        {% if queryset.has_next %}
+		            <a href="?page={{ queryset.next_page_number }}">next</a>
+		        {% endif %}
+		    </span> 
+	</div>
+</div>
+{% endblock %}

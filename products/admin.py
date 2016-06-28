@@ -13,12 +13,17 @@ class VarationInline(admin.TabularInline):
 
 class ProductAdmin(admin.ModelAdmin):
 	list_display = ['__str__', 'price']
-	inlines = [ ProductImageInline,
-	VarationInline]
+	inlines = [ ProductImageInline, VarationInline]
+	exclude = ['slug']
 	class Meta:
 		model = Product 
+
+class CategoryAdmin(admin.ModelAdmin):
+	exclude = ['slug']
+	class Meta:
+		model = Category 
 
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Variation)
 admin.site.register(ProductImage)
-admin.site.register(Category)
+admin.site.register(Category, CategoryAdmin)

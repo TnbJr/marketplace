@@ -1,18 +1,47 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
-	<h3>
-		{{ object }}
-	</h3>
-<table>
-{% for product in  products  %}
-<tr>
-	<td>
-		<a href="{{ product.get_absolute_url }}">{{ product }}</a>
-	</td>
-</tr>
-
-{% endfor %}
+<h4 class="title"><span class="text"><strong></strong> {{ object }}</span></h4>
+<section class="main-content">
+	<div class="row">						
+		<div class="span9">								
+			<ul class="thumbnails listing-products">
+			{% for product in products %}
+				<li class="span3">
+					<div class="product-box">
+						<span class="sale_tag"></span>
+						<a href="{{ product.get_absolute_url }}"><img alt="" src="{{ product.get_image_url }}"></a><br/>
+						<a href="{{ product.get_absolute_url }}" class="title">{{ product.title }}</a><br/>
+						<a href="#" class="category">{{ object }}</a>
+						<p class="price">${{ product.price }}</p>
+					</div>
+				</li>   
+			{% endfor %}    
+			</ul>
+						
+			<hr>
+			<div class="pagination pagination-small pagination-centered">
+				<span class="step-links">
+				 <ul>
+					{% if products.has_previous %}
+						<li><a href="?page={{ products.previous_page_number }}">Prev</a></li>
+					{% endif %}
+			
+					{% for page in products.paginator.page_range %}
+						 {% if products.number == page %}
+			                  <li class="active"><a href="?page={{ page }}">{{ page }}</a></li>
+			              {% else %}
+			                  <li><a href="?page={{ page }}">{{ page }}</a></li>
+			              {% endif %}
+					{% endfor %}
+					{% if products.has_next %}
+						<li><a href="?page={{ products.next_page_number }}">Next</a></li>
+					{% endif %}
+					</ul>
+				</span>
+			</div>
+		</div>
+	</div>
+</section>
 	
-</table>
 {% endblock %}

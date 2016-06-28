@@ -21,10 +21,14 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
+    url(r'^article/', include('posts.urls', namespace='post')),
+    url(r'^profile/', include('users.urls', namespace='profile')),
     url(r'^product/', include('products.urls', namespace='product')),
     url(r'^category/', include('products.urls_categories', namespace='category')),
     url(r'^cart/', include('carts.urls', namespace='cart')),
+    url(r'^contact/', include('contacts.urls', namespace='contact')),
     url(r'^order/', include('orders.urls', namespace='order')),
+    url(r'^newsletter/', include('newsletters.urls', namespace='newsletter')),
     url(r'^', include('sitemaps.urls', namespace='sitemap')),
 ]
 

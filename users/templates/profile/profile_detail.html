@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+
+<main>
+<div class="container" style="margin-top: 100px;">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+   
+   
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title text-center">{{ profile.user }}</h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+
+                <div class=" col-md-12 col-lg-12 "> 
+                  <table class="table table-user-information">
+                    <tbody>
+                      <tr>
+                        <td>Satavia, Indica or Hybrid:</td>
+                        <td>{{ profile.cannabis_type }}</td>
+                      </tr>
+                      <tr>
+                        <td>Date Joined</td>
+                        <td>{{ profile.created|date:" M  d Y" }}</td>
+                      </tr>
+                      <tr>
+                        <td>Date of Birth</td>
+                        <td>{{ profile.date_of_birth|date:" M  d Y" }}</td>
+                      </tr>
+                       <tr>
+                           <tr>
+                            <td>Gender</td>
+                            <td>{{ profile.gender }}</td>
+                          </tr>
+                            <tr>
+                            <td>Where I Reside</td>
+                            <td>{{ profile.location }}</td>
+                          </tr>
+                            <td>Bio</td>
+                            <td>{{ profile.bio }}</td>
+                        </tr>
+                     
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+                 <div class="panel-footer" style="height: 60px;">
+                 {% if request.user == profile.user %}
+                        <div class="pull-right">
+                            <a href="{% url 'profile:update' %}" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
+                        </div>
+                  {% endif %}
+                  </div>
+            
+          </div>
+        </div>
+      </div>
+
+</main>
+{% endblock content %}

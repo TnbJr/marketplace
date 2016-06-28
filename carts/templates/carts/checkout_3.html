@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script type="text/javascript">
+	{% block jquery %}
+		var clientToken = "{{ client_token }}";
+		braintree.setup(clientToken, "dropin", {
+		  container: "payment-form"
+		});
+	{% endblock %}
+</script>
+
+<section class="main-content">
+	<div class="row">
+		<div class="span8" style="background-color:red;">
+			<section class="billing-adress">
+				<h3> Enter Billing Address</h3>
+				<form>
+					{{ form }}
+				</form>
+				
+			</section>
+			<section class="billing-adress" style="background-color:green;">
+				<h3> Enter Billing Address</h3>
+			</section>
+			<section class="billing-adress" style="background-color:yellow;">
+				<h3> Enter Billing Address</h3>
+				<form  id="checkout"  method='POST' action="{% url 'cart:final' %}">
+					{% csrf_token %}
+					<div id="payment-form"></div>
+					<p class="text-center"><button class="text-center" type='submit'>Complete Order</button></p>
+				</form>
+			</section>		
+		</div>
+	</div>
+</section>
+{% endblock %}

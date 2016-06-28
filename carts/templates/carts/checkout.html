@@ -1,52 +1,72 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
 {% block content %}
-<h3>hann</h3>
+
 <script type="text/javascript">
 	{% block jquery %}
-var clientToken = "{{ client_token }}";
-
-braintree.setup(clientToken, "dropin", {
-  container: "payment-form"
-});
-
+		var clientToken = "{{ client_token }}";
+		braintree.setup(clientToken, "dropin", {
+		  container: "payment-form"
+		});
 	{% endblock %}
 </script>
-
-
-{% if not user_can_continue %}
-<div class="col-sm-6">
-<p>Sign In As Guest</p>
-<form method="POST" action="">
-	{% csrf_token %}
-{{ form.as_p }}
-<input type="submit" class="btn btn-success" value="Guest Login"/>
-</form>
-</div>
-
-<div class="col-sm-6">
-<form method="POST" action="">
-{% csrf_token %}
-	
-{{ login_form.as_p }}
-<input type="hidden" name="next" value="{{ next_url }}">
-<input type="submit" class="btn btn-success" value="Login"/>
-</form>
-	
-</div>
+	<section class="main-content">	
+		<h2>Checkout </h2>	
+			<div id="progress">
+				<ol style="width: 100%;
+    font-size: 0;
+    text-align: center;
+    display: block;">
+					<li>Billing Address</li>
+					<li>Shipping</li>
+					<li>Shipping</li>
+					<li>
+						Payment
+					</li>
+				</ol>
+			</div>
+		<div class="row">
+		{% if not user_can_continue %}
+			<div class="span5">					
+				<h4 class="title"><span class="text"><strong>Guest</strong> Form</span></h4>
+				<form action="#" method="post">
+					<input type="hidden" name="next" value="/">
+					{% csrf_token %}
+					<fieldset>
+						{{ form|crispy }}
+						<div class="control-group">
+							<input tabindex="3" class="btn btn-inverse large" type="submit" value="Sign into your account">
+							<hr>
+							<p class="reset">Recover your <a tabindex="4" href="#" title="Recover your username or password">username or password</a></p>
+						</div>
+					</fieldset>
+				</form>				
+			</div>
+			<div class="span7">					
+				<h4 class="title"><span class="text"><strong>Login</strong> Form</span></h4>
+				<form action="#" method="post" class="form-stacked">
+				{% csrf_token %}
+					<fieldset>
+						{{ login_form|crispy }}
+						<input type="submit" class="btn btn-success" value="Guest Login"/>
+						<hr>
+						<p>Youn can reegister here</p>
+					</fieldset>
+				</form>					
+			</div>				
+		</div>
+	</section>
 {% else %}
-<div class="col-sm-4 col-sm-offset-4">
-	
-{% include "orders/order_summary.html" with order=order %}
-<p>
-	<a href="{% url 'order:address_select' %}"> Channge Adress</a>
-</p>
-
-<form id="checkout"  method='POST' action="{% url 'cart:final' %}">{% csrf_token %}
-<!-- <input type='hidden' name='payment_token' value='ABC' /> -->
-<div id="payment-form"></div>
-<p><b><button type='submit'>Complete Order</button></b></p>
-</form>
-</div>
+	<div id="order-checkout" class="text-center">	
+		{% include "orders/order_summary.html" with order=order %}
+		<p><a href="{% url 'order:address_select' %}"> Channge Adress</a></p>
+		<form  id="checkout"  method='POST' action="{% url 'cart:final' %}">
+			{% csrf_token %}
+			<div id="payment-form"></div>
+			<p class="text-center"><button class="text-center" type='submit'>Complete Order</button></p>
+		</form>
+	</div>
 {% endif %}
 
 {% endblock %}
