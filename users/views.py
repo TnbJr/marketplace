@@ -67,7 +67,7 @@ class CreateUser(View):
 class LoginUser(FormView):
 	template_name = "user_form.html"
 	form_class = AuthenticationForm
-	# success_url = "/"
+	success_url = "/"
 
 	# def get(self, request):
 	#   form = self.form_class()
@@ -111,6 +111,7 @@ class LoginUser(FormView):
 
 	def form_valid(self, form):
 		print('Form valid')
+		print(self.request.session._session_key)
 		# print(self.request.POST['name'])
 		# print(self.request.POST['title'])
 		auth_login(self.request, form.get_user())
@@ -132,6 +133,23 @@ class LoginUser(FormView):
 		data-filled form and errors.
 		"""
 		return self.render_to_response(self.get_context_data(form=form))
+
+	def get_success_url(self):
+		# next_url = self.request.POST.get('next',None) # here method should be GET or POST.
+		
+		next_url = self.request.POST.get('next')
+		print(next_url)
+		if next_url:
+			print('next works')
+			return next_url
+		print('next not working')
+		return self.success_url
+			# you can include some query strings as well
+		# redirect_to = self.request.REQUEST.get(self.redirect_field_name)
+		# if not is_safe_url(url=redirect_to, host=self.request.get_host()):
+		#   redirect_to = self.success_url
+		# return redirect_to
+
 
 class UpdateUser(LoginRequiredMixin, View):
 	template_name = "user_form.html"
