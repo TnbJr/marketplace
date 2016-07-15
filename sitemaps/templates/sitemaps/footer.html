@@ -11,7 +11,7 @@
 				<li><a href="{% url 'cart:main' %}">Your Cart</a></li>
 				<li><a href="./cart.html">Privacy Policy</a></li>
 				{% if user.is_anonymous %}
-				<li><a href="{% url 'account_login' %}">Login</a></li>	
+				<li><a href="{% url 'users:login' %}">Login</a></li>	
 				{% endif %}					
 			</ul>					
 		</div>

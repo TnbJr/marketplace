@@ -13,11 +13,11 @@
 			<div class="account">
 				<ul class="user-menu">
 				{% if user.is_anonymous %}
-					<li><a href="{% url 'account_login' %}">Login</a></li>
-					<li><a href="{% url 'account_signup' %}">Register</a></li>
+					<li><a href="{% url 'users:login' %}">Login</a></li>
+					<li><a href="{% url 'users:signup' %}">Register</a></li>
 				{% else %}
 				<li><a href="">My Account</a></li>
-					<li><a href="{% url 'account_logout' %}">Sign Out</a></li>
+					<li><a href="{% url 'users:logout' %}">Sign Out</a></li>
 				{% endif %}				
 				<li><a href="{% url 'cart:main' %}">Your Cart</a></li>
 					

@@ -2,7 +2,6 @@ import braintree
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.forms import AuthenticationForm
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.base import View 
@@ -11,12 +10,11 @@ from django.views.generic.detail import SingleObjectMixin, DetailView
 from django.views.generic.edit import FormMixin
 
 from orders.models import UserCheckout, Order, UserAddress
-from orders.forms import GuestCheckoutForm, UsertAddressForm
-from orders.mixins import CartOrderMixin
+from orders.forms import GuestCheckoutForm, UserAddressForm
+from orders.mixins import CartOrderMixin, LoginRequiredMixin
 from products.models import Variation
 from .models import Cart, CartItem
 
-from allauth.account.forms import LoginForm
 
 # Create your views here.
 
@@ -42,18 +40,20 @@ class CartView(SingleObjectMixin, View):
 		# request.session.set_expiry()
 		cart_id = self.request.session.get("cart_id")
 		if cart_id == None:
+			print('cart_id is none')
 			cart = Cart()
 			cart.save()
 			cart_id = cart.id
 			self.request.session["cart_id"] = cart_id
-		cart = Cart.objects.get(id=cart_id)
+		cart = Cart.objects.get(pk=cart_id)
 		if self.request.user.is_authenticated():
 			cart.user = self.request.user
 			cart.save()
 		return cart
 
-
 	def get(self, request):
+		print('han')
+		print(self.request.session.get("cart_id"))
 		cart = self.get_object()
 		item_id = request.GET.get("item")
 		delete_item = request.GET.get("delete", False)
@@ -120,10 +120,10 @@ class CartView(SingleObjectMixin, View):
 		return render(request, self.template_name, context)
 	
 
-class CheckOutView(CartOrderMixin, FormMixin, DetailView):
+class CheckOutView(LoginRequiredMixin, CartOrderMixin, FormMixin, DetailView):
 	model = Cart
 	template_name = "carts/checkout.html"
-	form_class = UsertAddressForm
+	form_class = UserAddressForm
 
 	def get_object(self, *args, **kwargs):
 		cart = self.get_cart()
@@ -140,13 +140,13 @@ class CheckOutView(CartOrderMixin, FormMixin, DetailView):
 			user_checkout, created = UserCheckout.objects.get_or_create(email=self.request.user.email)
 			user_checkout.user = self.request.user
 			user_checkout.save()
-			context["client_token"] = user_checkout.get_client_token()
+			# context["client_token"] = user_checkout.get_client_token()
 			self.request.session["user_checkout_id"] = user_checkout.id
-		elif not self.request.user.is_authenticated() and user_checkout_id == None:
-			context["login_form"] = LoginForm
-			context["next_url"] = self.request.build_absolute_uri()
-		else:
-			pass
+		# elif not self.request.user.is_authenticated() and user_checkout_id == None:
+		# 	context["login_form"] = AuthenticationForm
+		# 	context["next_url"] = self.request.build_absolute_uri()
+		# else:
+		# 	pass
 		if user_checkout_id != None:
 			user_can_continue = True
 			if not self.request.user.is_authenticated():
@@ -167,9 +167,8 @@ class CheckOutView(CartOrderMixin, FormMixin, DetailView):
 			user_checkout, created = UserCheckout.objects.get_or_create(email=email)
 			request.session["user_checkout_id"] = user_checkout.id
 			return self.form_valid(form)
-		else:
-			# print(form.cleaned_data.get("email"))
-			return self.form_invalid(form)
+		# print(form.cleaned_data.get("email"))
+		return self.form_invalid(form)
 
 	def get_success_url(self):
 		return reverse("cart:checkout")
@@ -182,9 +181,9 @@ class CheckOutView(CartOrderMixin, FormMixin, DetailView):
 		print(user_checkout_id)
 		if user_checkout_id != None:
 			user_checkout = UserCheckout.objects.get(id=user_checkout_id)
-			if new_order.billing_address == None or new_order.shipping_address == None:
-				print("needs address")
-				return redirect("order:address_select")
+			# if new_order.billing_address == None or new_order.shipping_address == None:
+			# 	print("needs address")
+			# 	return redirect("order:address_select")
 			new_order.user = user_checkout
 			new_order.save()
 		return super(CheckOutView, self).get(request, *args, **kwargs)

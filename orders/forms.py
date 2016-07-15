@@ -1,5 +1,8 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout
+
 
 from .models import UserAddress
 
@@ -37,7 +40,11 @@ class AddressForm(forms.Form):
 		widget= forms.RadioSelect,
 
 	)
-class UsertAddressForm(forms.ModelForm):
+class UserAddressForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(UserAddressForm, self).__init__(*args, **kwargs)
+		self.helper = FormHelper()
+
 	class Meta:
 		model = UserAddress
 		fields = [

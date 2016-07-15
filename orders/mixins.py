@@ -5,7 +5,6 @@ from carts.models import Cart
 from .models import Order
 
 class LoginRequiredMixin(object):
-	
 	@method_decorator(login_required)
 	def dispatch(self, request, *args, **kwargs):
 		return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
@@ -23,6 +22,7 @@ class CartOrderMixin(object):
 			self.request.session["order_id"] = new_order.id
 		else:
 			print("new_order is valid")
+			print(new_order_id)
 			new_order = Order.objects.get(id=new_order_id)
 			# print(new_order)
 		return new_order

@@ -7,7 +7,7 @@ from django.views.generic.list import ListView
 from django.core.urlresolvers import reverse
 # Create your views here.
 from .mixins import CartOrderMixin, LoginRequiredMixin
-from .forms import AddressForm, UsertAddressForm
+from .forms import AddressForm, UserAddressForm
 from .models import UserAddress, UserCheckout, Order
 
 
@@ -46,7 +46,7 @@ class OrderList(LoginRequiredMixin, ListView):
 
 
 class UserAddressCreateView(CreateView):
-	form_class = UsertAddressForm
+	form_class = UserAddressForm
 	template_name = "orders/address.html"
 	success_url = "/order/address"
 

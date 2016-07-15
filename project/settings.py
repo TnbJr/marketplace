@@ -30,6 +30,15 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'easydabble@gmail.com'
+EMAIL_HOST_PASSWORD = 'Pizzlepow3'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,9 +58,9 @@ INSTALLED_APPS = [
 
     'crispy_forms',
     'django_filters',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount'
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -135,6 +144,9 @@ CRISPY_TEMPLATE_PACK = 'uni_form'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
+
+LOGIN_URL = '/user/login'
+
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_root")
@@ -160,6 +172,6 @@ braintree.Configuration.configure(braintree.Environment.Sandbox,
                                   public_key="p4v5v4njf7bmf46f",
                                   private_key="b95b7b2b930dc312d353131f7e24ad0b")
 
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = True
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_USERNAME_REQUIRED = True
 

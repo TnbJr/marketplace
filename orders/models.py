@@ -25,7 +25,7 @@ class UserCheckout(models.Model):
 
 
 	def __str__(self):
-		return self.email
+		return str(self.user)
 
 	@property
 	def get_braintree_id(self,):
@@ -53,7 +53,8 @@ def update_braintree_id(sender, instance, *args, **kwargs):
 	if not instance.braintree_id:
 		instance.get_braintree_id
 
-post_save.connect(update_braintree_id, sender=UserCheckout)
+#No internet uncomment this
+# post_save.connect(update_braintree_id, sender=UserCheckout)
 
 
 
@@ -98,7 +99,7 @@ class Order(models.Model):
 	order_id = models.CharField(max_length=20, null=True, blank=True)
 
 	def __str__(self):
-		return str(self.cart.id), str(self.billing_address)
+		return str(self.user)
 
 	class Meta:
 		ordering = ['-id']
