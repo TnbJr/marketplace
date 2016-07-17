@@ -10,7 +10,7 @@ from django.utils.decorators import method_decorator
 
 from django.views.decorators.http import require_http_methods
 
-from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth import logout, authenticate, login, REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import (
@@ -68,17 +68,17 @@ class LoginUser(FormView):
 	template_name = "user_form.html"
 	form_class = AuthenticationForm
 	success_url = "/"
-
-	# def get(self, request):
-	#   form = self.form_class()
-	#   context = self.get_context_data(form)
-	#   return render(request, self.template_name, context)
+	
 	@method_decorator(csrf_protect)
 	def post(self, request, *args, **kwargs):
 		form_class = self.get_form_class()
 		form = self.get_form(form_class)
 		if form.is_valid():
 			print('The post login post is valid')
+			# print(dir(self.request.POST))
+			print(self.request.POST)
+			# print(self.request.GET)
+			print(self.request)
 			return self.form_valid(form)
 			# form = self.form_class(request)
 			# print(form)
@@ -111,7 +111,8 @@ class LoginUser(FormView):
 
 	def form_valid(self, form):
 		print('Form valid')
-		print(self.request.session._session_key)
+		# print(self.request.session._session_key)
+		# print(self.request.next)
 		# print(self.request.POST['name'])
 		# print(self.request.POST['title'])
 		auth_login(self.request, form.get_user())
@@ -136,8 +137,7 @@ class LoginUser(FormView):
 
 	def get_success_url(self):
 		# next_url = self.request.POST.get('next',None) # here method should be GET or POST.
-		
-		next_url = self.request.GET.get('next')
+		next_url = self.request.POST.get('next')
 		print(next_url)
 		if next_url:
 			print('next works')
