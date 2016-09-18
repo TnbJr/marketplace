@@ -61,7 +61,7 @@
 	<div class="product-description">{{ object.description }}</div>
 
 	<form id="add-cart-form" method=="GET" action="{% url 'cart:main' %}" style="border: 1px solid red;">
-		{% if object.variation_set.all.count > 1 %}
+		{% if object.variation_set.all.count >= 1 %}
 		<select name="item" class="form-cotrol variation_select">
 			{% for item in  object.variation_set.all %}
 			<option  name='item' data-sale-price="{{ item.sales_price }}" data-price="{{ item.price }}" value="{{ item.id }}">
@@ -82,7 +82,7 @@
 		{% endif %}
 		<input class="form-control" type="number" name="qty" value="1">  </>
 		<br>	
-		<input id="cart-submit-btn" type="submit" class="btn btn-default" value="Add To Cart">
+		<input id="cart-submit-btn" type="submit" class="btn btn-default" value="Add To Cart han">
 	</form>
 	
 </section>	

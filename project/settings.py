@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'contacts',
     'newsletters',
 
+    'localflavor',
     'crispy_forms',
     'django_filters',
     # 'allauth',

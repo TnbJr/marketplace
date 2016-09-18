@@ -1,0 +1,13 @@
+.shipping-form-label{
+	display: inline-block;
+	width: 10%;
+    position: relative;
+}
+
+input[type="text"]{
+	vertical-align: top;
+}
+
+#address-form{
+	margin: 20px;
+}

@@ -1,13 +1,19 @@
 {% load staticfiles %}
 	<script src="{% static 'js/jquery.min.js' %}"></script>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 	<script src="{% static 'js/bootstrap.min.js' %}"></script>
 	<script src="https://js.braintreegateway.com/js/braintree-2.24.1.min.js"></script>
 	<!-- <script src="{% static 'products/js/price.js' %}"></script> -->
 	<!-- <script src="{% static 'js/alertMessage.js' %}"></script> -->
 	<!-- <script src="{% static 'sitemaps/js/responsiveCarousel.min.js' %}"></script> -->
-	<script src="{% static 'sitemaps/js/superfish.js' %}"></script>	
+	<!-- <script src="{% static 'sitemaps/js/superfish.js' %}"></script>
+		 -->
+	
+	<script src="{% static 'carts/js/custom.js' %}"></script>
+
 	<script src="{% static 'sitemaps/js/jquery.flexslider-min.js' %}"></script>
 	<script src="{% static 'sitemaps/js/jquery.fancybox.js' %}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
 	<script type="text/javascript">
 			$(document).ready(function() {
 				console.log("javascript.html")
@@ -19,11 +25,7 @@
 					directionNav: true,
 					controlsContainer: ".flex-container" // the container that holds the flexslider
 				});
+				{% block jquery %}
+				{% endblock %}
 			});
-	</script>
-	<script>	
-		$(document).ready(function(){
-			{% block jquery %}
-			{% endblock %}
-		});
 	</script>

@@ -8,11 +8,11 @@ from django.views.generic.base import View
 from django.http import HttpResponseRedirect, JsonResponse, Http404
 from django.views.generic.detail import SingleObjectMixin, DetailView
 from django.views.generic.edit import FormMixin
-
-from orders.models import UserCheckout, Order, UserAddress
-from orders.forms import GuestCheckoutForm, UserAddressForm
+from orders.models import UserCheckout
+from orders.forms import UserAddressForm, UserShippingForm
 from orders.mixins import CartOrderMixin, LoginRequiredMixin
 from products.models import Variation
+from users.models import UserAddress
 from .models import Cart, CartItem
 
 
@@ -48,11 +48,13 @@ class CartView(SingleObjectMixin, View):
 		cart = Cart.objects.get(pk=cart_id)
 		if self.request.user.is_authenticated():
 			cart.user = self.request.user
+
 			cart.save()
 		return cart
 
 	def get(self, request):
 		print('han')
+		print(self.request.user)
 		print(self.request.session.get("cart_id"))
 		cart = self.get_object()
 		item_id = request.GET.get("item")
@@ -115,7 +117,8 @@ class CartView(SingleObjectMixin, View):
 					}
 			return JsonResponse(data)
 		context = {
-			"object": self.get_object
+			"object": self.get_object(),
+			"user_address": UserAddress.objects.filter(user=self.request.user)
 		}
 		return render(request, self.template_name, context)
 	
@@ -123,7 +126,7 @@ class CartView(SingleObjectMixin, View):
 class CheckOutView(LoginRequiredMixin, CartOrderMixin, FormMixin, DetailView):
 	model = Cart
 	template_name = "carts/checkout.html"
-	form_class = UserAddressForm
+	form_class = UserShippingForm
 
 	def get_object(self, *args, **kwargs):
 		cart = self.get_cart()
@@ -137,16 +140,13 @@ class CheckOutView(LoginRequiredMixin, CartOrderMixin, FormMixin, DetailView):
 		user_checkout_id = self.request.session.get("user_checkout_id")
 		if self.request.user.is_authenticated():
 			user_can_continue = True
+			# user_profile = Profile.objects.get(user=self.request.user)
 			user_checkout, created = UserCheckout.objects.get_or_create(email=self.request.user.email)
 			user_checkout.user = self.request.user
+
 			user_checkout.save()
-			# context["client_token"] = user_checkout.get_client_token()
+			context["client_token"] = user_checkout.get_client_token()
 			self.request.session["user_checkout_id"] = user_checkout.id
-		# elif not self.request.user.is_authenticated() and user_checkout_id == None:
-		# 	context["login_form"] = AuthenticationForm
-		# 	context["next_url"] = self.request.build_absolute_uri()
-		# else:
-		# 	pass
 		if user_checkout_id != None:
 			user_can_continue = True
 			if not self.request.user.is_authenticated():
@@ -155,6 +155,7 @@ class CheckOutView(LoginRequiredMixin, CartOrderMixin, FormMixin, DetailView):
 		context["order"] = self.get_order()
 		context["user_can_continue"] = user_can_continue
 		context["form"] = self.get_form()
+		context["user_address"] = UserAddress.objects.filter(user=self.request.user)
 		return context
 
 	def post(self, request, *args, **kwargs):
@@ -162,12 +163,9 @@ class CheckOutView(LoginRequiredMixin, CartOrderMixin, FormMixin, DetailView):
 		form = self.get_form()
 		if form.is_valid():
 			email = form.cleaned_data.get("email")
-			# print("jakk")
-			# print(form.cleaned_data.get("verify_email"))
-			user_checkout, created = UserCheckout.objects.get_or_create(email=email)
+			user_checkout, created = UserCheckout.objects.get_or_create(email=self.request.user.email)
 			request.session["user_checkout_id"] = user_checkout.id
 			return self.form_valid(form)
-		# print(form.cleaned_data.get("email"))
 		return self.form_invalid(form)
 
 	def get_success_url(self):
@@ -181,12 +179,15 @@ class CheckOutView(LoginRequiredMixin, CartOrderMixin, FormMixin, DetailView):
 		print(user_checkout_id)
 		if user_checkout_id != None:
 			user_checkout = UserCheckout.objects.get(id=user_checkout_id)
-			# if new_order.billing_address == None or new_order.shipping_address == None:
-			# 	print("needs address")
-			# 	return redirect("order:address_select")
-			new_order.user = user_checkout
+			new_order.user = self.request.user
 			new_order.save()
 		return super(CheckOutView, self).get(request, *args, **kwargs)
+
+	def get_initial(self):
+		initial = super(CheckOutView, self).get_initial()
+		initial['first_name'] = self.request.user.first_name
+		initial['last_name'] = self.request.user.last_name
+		return initial
 
 class FinanlizeCheckoutView(CartOrderMixin, View):
 	def post(self, request, *args, **kwargs):

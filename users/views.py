@@ -1,10 +1,10 @@
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import View, FormView
+from django.views.generic import View, FormView, RedirectView
 from django.views.generic.detail import DetailView
 
-from .models import Profile
-from .forms import ProfileForm, UserUpdateForm, UserCreateForm
+# from .models import Profile
+from .forms import UserUpdateForm, UserCreateForm
 # from reviews.models import UserReview
 from django.utils.decorators import method_decorator
 
@@ -214,7 +214,11 @@ class ChangePassword(LoginRequiredMixin, View):
 			"submit_text": "Update"
 		}
 
-def logout(request): pass 
+class Logout(RedirectView):
+	url = "/user/login"
+	def get(self, request, *args, **kwargs):
+		auth_logout(request)
+		return super(Logout, self).get(request, *args, **kwargs)
 
 
 

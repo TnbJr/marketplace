@@ -1,19 +1,93 @@
 {% load crispy_forms_tags %}
 
+
+<script type="text/javascript">
+		{% block jquery %}
+
+		{% endblock %}
+</script>
+
+
+
 <div class='col-sm-4 col-sm-offset-4'>
-<p class='lead'>
-Select your addresses for this order.
-</p>
-<form method="POST" action=''>
-	{% csrf_token %}
-	{% crispy form %}
-	<!-- {% for field in form %}
-    <div class="fieldWrapper">
-        {{ field.errors }}
-        {{ field.label_tag }} {{ field }}
-    </div>
-{% endfor %} -->
-	<input class='btn btn-default' type='submit' value='Add Address'/>
-	<a class='btn btn-link' href="{% url 'order:address_create' %}" >Add new</a>
-</form>
+	<form method="POST" action='' id="address-form">
+		{% csrf_token %}
+		<label> Select An Address</label>
+		<select name="item" class="form-cotrol variation_select">
+			{% for address in  user_address %}
+			<option  name='address_select' data-address="{{ address.address }}" data-address2="{{ address.address2 }}" data-city="{{ address.city }}" data-state="{{ address.state }}" data-zipcode="{{ address.zipcode }}" data-phone="{{ address.phone }}" data-country="{{ address.country }}" value="{{ address.id }}">
+			{{ address.get_address }}
+			</option>
+			{% endfor %}
+		</select>
+		<!-- {{ form|crispy }} -->
+
+		<!-- {{ form.non_field_errors }} -->
+		<div class="fieldWrapper">
+		    {{ form.first_name.errors }}
+		    <label class="shipping-form-label" for="{{ form.first_name.id_for_label }}">First Name:</label>
+		    {{ form.first_name }}
+		</div>
+		<div class="fieldWrapper">
+		    {{ form.last_name.errors }}
+		    <label class="shipping-form-label" for="{{ form.last_name.id_for_label }}">Last Name:</label>
+		    {{ form.last_name }}
+		</div>
+
+		<div class="fieldWrapper">
+		    {{ form.address.errors }}
+		    <label class="shipping-form-label" for="{{ form.street.id_for_label }}">Address:</label>
+		    {{ form.address }}
+		</div>
+		
+		<div class="fieldWrapper">
+		    {{ form.address2.errors }}
+		    <label class="shipping-form-label" for="{{ form.address2.id_for_label }}"></label>
+		    {{ form.address2 }}
+		</div>
+
+		<div class="fieldWrapper">
+		    {{ form.city.errors }}
+		    <label class="shipping-form-label" for="{{ form.city.id_for_label }}">City:</label>
+		    {{ form.city }}
+		</div>
+		
+		<div class="fieldWrapper">
+		    {{ form.country.errors }}
+		    <label class="shipping-form-label" for="{{ form.country.id_for_label }}">Country:</label>
+		    {{ form.country }}
+		</div>
+
+		<div class="fieldWrapper">
+		    {{ form.state.errors }}
+		    <label class="shipping-form-label" for="{{ form.state.id_for_label }}">State:</label>
+		    {{ form.state }}
+		</div>
+
+		<div class="fieldWrapper">
+		    {{ form.zipcode.errors }}
+		    <label class="shipping-form-label" for="{{ form.zipcode.id_for_label }}">Zipcode:</label>
+		    {{ form.zipcode }}
+		</div>
+
+		<div class="fieldWrapper">
+		    {{ form.phone.errors }}
+		    <label class="shipping-form-label" for="{{ form.phone.id_for_label }}">Phone Number:</label>
+		    {{ form.phone }}
+		</div>
+
+		<div class="fieldWrapper">
+		    {{ form.billing.errors }}
+		    <label class="shipping-form-label" for="{{ form.billing.id_for_label }}">Billing Address:</label>
+		    {{ form.billing }}
+		</div>
+
+		<div class="fieldWrapper">
+			{% for radio in form.shipping_choice %}
+			{{ radio }}
+			{% endfor %}
+		</div>
+
+		<input  type="submit" value="Submit" class="btn btn-default text-center" />
+	</form>
 </div>

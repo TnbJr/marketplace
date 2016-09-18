@@ -76,16 +76,6 @@ class ProductFilter(FilterSet):
 			'description',
 		]
 
-# def product_list(request):
-# 	qs = Product.objects.all()
-# 	ordering = request.GET.get("ordering")
-# 	if ordering:
-# 		qs = Product.objects.all().order_by(ordering)
-# 	f = ProductFilter(request.GET, queryset=qs)
-# 	return render(request, "products/list_view.html", {"object_list": f})
-
-
-
 class FilterMixin(object):
 	filter_class = None
 	search_ordering_param = "ordering"
@@ -138,8 +128,6 @@ class ProductListView(ListView, FilterMixin):
 			except:
 				pass
 		return qs
-
-
 
 class VariationListView(LoginRequiredMixin, ListView):
 	model = Variation

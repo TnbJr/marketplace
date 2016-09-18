@@ -7,7 +7,7 @@ from django.views.generic.list import ListView
 from django.core.urlresolvers import reverse
 # Create your views here.
 from .mixins import CartOrderMixin, LoginRequiredMixin
-from .forms import AddressForm, UserAddressForm
+from .forms import UserAddressForm
 from .models import UserAddress, UserCheckout, Order
 
 
@@ -61,61 +61,61 @@ class UserAddressCreateView(CreateView):
 
 
 
-class AddressSelectFormView(CartOrderMixin, FormView):
-	form_class = AddressForm
-	template_name = "orders/address.html"
+# class AddressSelectFormView(CartOrderMixin, FormView):
+# 	form_class = AddressForm
+# 	template_name = "orders/address.html"
 
 
-	def dispatch(self, *args, **kwargs):
-		b_address, s_address = self.get_addresses()
+# 	def dispatch(self, *args, **kwargs):
+# 		b_address, s_address = self.get_addresses()
 
-		if b_address.count() == 0:
-			messages.success(self.request, "Please add a billing address before checking out")
-			return redirect("order:address_create")
-		elif s_address.count() == 0:
-			return redirect("order:address_create")
+# 		if b_address.count() == 0:
+# 			messages.success(self.request, "Please add a billing address before checking out")
+# 			return redirect("order:address_create")
+# 		elif s_address.count() == 0:
+# 			return redirect("order:address_create")
 		
-		return super(AddressSelectFormView, self).dispatch(*args, **kwargs)
+# 		return super(AddressSelectFormView, self).dispatch(*args, **kwargs)
 
 
 
-	def get_addresses(self, *args, **kwargs):
-		user_checkout_id = self.request.session.get("user_checkout_id")
-		user_checkout = UserCheckout.objects.get(id=user_checkout_id)
-		b_address =  UserAddress.objects.filter(
-			user__email = user_checkout,
-			address_type= 'billing',
-			 )
-		s_address = UserAddress.objects.filter(
-			user__email = user_checkout,
-			address_type= 'shipping',
-			)
-		return b_address, s_address
+# 	def get_addresses(self, *args, **kwargs):
+# 		user_checkout_id = self.request.session.get("user_checkout_id")
+# 		user_checkout = UserCheckout.objects.get(id=user_checkout_id)
+# 		b_address =  UserAddress.objects.filter(
+# 			user__email = user_checkout,
+# 			address_type= 'billing',
+# 			 )
+# 		s_address = UserAddress.objects.filter(
+# 			user__email = user_checkout,
+# 			address_type= 'shipping',
+# 			)
+# 		return b_address, s_address
 
-	def get_form(self, *args, **kwargs):
-		form = super(AddressSelectFormView, self).get_form(*args, **kwargs)
-		b_address, s_address = self.get_addresses()
+# 	def get_form(self, *args, **kwargs):
+# 		form = super(AddressSelectFormView, self).get_form(*args, **kwargs)
+# 		b_address, s_address = self.get_addresses()
 		
 			 
-		# if b_address.count() == 0 or s_address.count() == 0:
-		# 	return redirect("order:address_create")
+# 		# if b_address.count() == 0 or s_address.count() == 0:
+# 		# 	return redirect("order:address_create")
 
-		form.fields["billing_address"].queryset = b_address
-		form.fields["shipping_address"].queryset = s_address
+# 		form.fields["billing_address"].queryset = b_address
+# 		form.fields["shipping_address"].queryset = s_address
 
-		return form
+# 		return form
 
-	def form_valid(self, form, *args, **kwargs):
-		billing_address = form.cleaned_data["billing_address"]
-		shipping_address = form.cleaned_data["shipping_address"]
-		order = self.get_order()
-		order.billing_address = billing_address
-		order.shipping_address = shipping_address
-		order.save()
-		# self.request.session["billing_address"] = billing_address.id
-		# self.request.session["shipping_address"] = shipping_address.id
+# 	def form_valid(self, form, *args, **kwargs):
+# 		billing_address = form.cleaned_data["billing_address"]
+# 		shipping_address = form.cleaned_data["shipping_address"]
+# 		order = self.get_order()
+# 		order.billing_address = billing_address
+# 		order.shipping_address = shipping_address
+# 		order.save()
+# 		# self.request.session["billing_address"] = billing_address.id
+# 		# self.request.session["shipping_address"] = shipping_address.id
 
-		return super(AddressSelectFormView, self).form_valid(form, *args, **kwargs)
+# 		return super(AddressSelectFormView, self).form_valid(form, *args, **kwargs)
 
-	def get_success_url(self):
-		return "/cart/checkout"
+# 	def get_success_url(self):
+# 		return "/cart/checkout"

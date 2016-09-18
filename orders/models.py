@@ -5,7 +5,7 @@ from django.db import models
 from django.db.models.signals import pre_save, post_save
 
 from carts.models import Cart
-
+from users.models import UserAddress
 # Create your models here.
 
 
@@ -53,31 +53,8 @@ def update_braintree_id(sender, instance, *args, **kwargs):
 	if not instance.braintree_id:
 		instance.get_braintree_id
 
-#No internet uncomment this
-# post_save.connect(update_braintree_id, sender=UserCheckout)
-
-
-
-
-ADDRESS_TYPE = (
-		('billing', 'Billing'),
-		('shipping', 'Shipping'),
-	)
-
-
-class UserAddress(models.Model):
-	user = models.ForeignKey(UserCheckout)
-	address_type = models.CharField(max_length=120, choices=ADDRESS_TYPE)
-	street = models.CharField(max_length=120)
-	city = models.CharField(max_length=120)
-	state = models.CharField(max_length=120)
-	zipcode = models.CharField(max_length=120)
-
-	def get_address(self):
-		return "%s, %s, %s, %s" %(self.street, self.city, self.state, self.zipcode)
-
-	def __str__(self):
-		return self.street
+# No internet uncomment this
+post_save.connect(update_braintree_id, sender=UserCheckout)
 
 
 ORDER_STATUS_CHOICES = (
@@ -87,11 +64,10 @@ ORDER_STATUS_CHOICES = (
 	('refunded', 'Refunded'),
 )
 
-
 class Order(models.Model):
 	status = models.CharField(max_length=120, choices=ORDER_STATUS_CHOICES, default='created')
 	cart = models.ForeignKey(Cart)
-	user = models.ForeignKey(UserCheckout, null=True)
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
 	shipping_address = models.ForeignKey(UserAddress, related_name='shipping_address', null=True)
 	billing_address = models.ForeignKey(UserAddress, related_name='billing_address', null=True)
 	shipping_total_price = models.DecimalField(max_digits=50, decimal_places=2, default=5.99)

@@ -1,7 +1,4 @@
 from django.contrib import admin
-from .models import Profile
-
-# class UserReviewAdmin(admin.ModelAdmin):
-# 	model = UserReview
+# from .models import Profile
 	
-admin.site.register(Profile)
+# admin.site.register(Profile)

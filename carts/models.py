@@ -4,6 +4,7 @@ from django.conf import settings
 from products.models import Variation
 from django.db.models.signals import pre_save, post_save, post_delete
 
+
 # Create your models here.
 
 class CartItem(models.Model):

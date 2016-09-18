@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import CreateUser, LoginUser, UpdateUser, ChangePassword, logout
+from .views import CreateUser, LoginUser, UpdateUser, ChangePassword, Logout
 from django.contrib.auth.views import (
 	password_reset,
 	password_reset_done,
@@ -17,5 +17,5 @@ urlpatterns = [
     url(r'^password-reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', password_reset_confirm, {'post_reset_redirect' : '/user/password/done/', 'template_name':'users/registration/password_reset_email.html'}, name="password_reset_confirm"),
     
     # url(r'^welcome$', views.welcome, name="welcome"),
-    url(r'^logout$', logout, name="logout"),
+    url(r'^logout$', Logout.as_view(), name="logout"),
 ]
