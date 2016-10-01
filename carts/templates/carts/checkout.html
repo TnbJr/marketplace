@@ -3,76 +3,70 @@
 
 
 <script type="text/javascript">
-	{% block jquery %}
-		var clientToken = "{{ client_token }}";
-		braintree.setup(clientToken, "dropin", {
-		  container: "payment-form"
-		});
-	var setAddress = function(){
-		var $address1 = $(".variation_select option:selected").attr("data-address")
-		var $address2 = $(".variation_select option:selected").attr("data-address2")
-		var $city = $(".variation_select option:selected").attr("data-city")
-		var $state = $(".variation_select option:selected").attr("data-state")
-		var $zipcode = $(".variation_select option:selected").attr("data-zipcode")
-		var $phone = $(".variation_select option:selected").attr("data-phone")
-		var $country = $(".variation_select option:selected").attr("data-country")
+  {% block jquery %}
+    var clientToken = "{{ client_token }}";
+    braintree.setup(clientToken, "dropin", {
+      container: "payment-form"
+    });
+  var setAddress = function(){
+    var $address1 = $(".variation_select option:selected").attr("data-address")
+    var $address2 = $(".variation_select option:selected").attr("data-address2")
+    var $city = $(".variation_select option:selected").attr("data-city")
+    var $state = $(".variation_select option:selected").attr("data-state")
+    var $zipcode = $(".variation_select option:selected").attr("data-zipcode")
+    var $phone = $(".variation_select option:selected").attr("data-phone")
+    var $country = $(".variation_select option:selected").attr("data-country")
 
-		$('#id_address').val($address1);
-		$('#id_address2').val($address2);
-		$('#id_city').val($city);
-		$('#id_state').val($state);
-		$('#id_zipcode').val($zipcode);
-		$('#id_phone').val($phone);
-		$('#id_country').val($country);
-		console.log('set address ran!');
+    $('#id_address').val($address1);
+    $('#id_address2').val($address2);
+    $('#id_city').val($city);
+    $('#id_state').val($state);
+    $('#id_zipcode').val($zipcode);
+    $('#id_phone').val($phone);
+    $('#id_country').val($country);
+    console.log('set address ran!');
 
-		// if ( $salePrice != "" && $salePrice != "None" && $salePrice != null){
-		// 	$(".product-price").html("<h3>" + $salePrice + " " + "<small>" + price + "</small>" + "</h3>");
-		// }else{
-		// 	$(".product-price").text(price);
-		// }	
-	};
-		setAddress()
-		$(".variation_select").change(function(){
-			setAddress()
-		});
-	{% endblock %}
+    // if ( $salePrice != "" && $salePrice != "None" && $salePrice != null){
+    //  $(".product-price").html("<h3>" + $salePrice + " " + "<small>" + price + "</small>" + "</h3>");
+    // }else{
+    //  $(".product-price").text(price);
+    // }  
+  };
+    setAddress()
+    $(".variation_select").change(function(){
+      setAddress()
+    });
+  {% endblock %}
 </script>
 
 
 {% block content %}
 
-	<div class="main-content row">
-		<div class="span7">
-		<section>
-			<h1>I would beeen traping in hallways</h1>
-			<h3>1. Shipping</h3>
-			<ul>
-				<li> USA shipping only</li>
-				<li> Restriction 2</li>
-				<li> Restriction 3</li>
-			</ul>
-			{% include "orders/address.html" with order=order %}
-		</section>
-		<section style="border: black solid 1px">
-			<h3>3. Billing</h3>
-			<form  style="display: None;" id="checkout"  method='POST' action="{% url 'cart:final' %}">
-				{% csrf_token %}
-				<div id="payment-form"></div>
-				<p class="text-center"><button class="text-center" type='submit'>Complete Order</button></p>
-			</form>
-			
-		</section>	
-		<section style="border: black solid 1px">
-			<h3>4. Review/Payment </h3>
-			
-			
-		</section>
-		</div>	
-		
-		<aside class="span5" style="background-color: red;">
-			<h3>HAn</h3>
-			{% include "orders/order_summary.html" with order=order %}
-		</aside>
-	</div>
+  <div class="main-content row">
+    <div class="span7">
+    <section>
+      <h1>I would beeen traping in hallways</h1>
+      <h3>1. Shipping</h3>
+      <ul>
+        <li> USA shipping only</li>
+        <li> Restriction 2</li>
+        <li> Restriction 3</li>
+      </ul>
+      {% include "orders/address.html" with order=order %}
+    </section>
+    <section style="border: black solid 1px; color: #d0d0d0; border-top: 2px solid red;">
+      <h3>3. Billing</h3>
+      <form  id="checkout" method='POST' action="{% url 'cart:final' %}">
+        {% csrf_token %}
+        <div id="payment-form"></div>
+        <p class="text-center"><button class="text-center" type='submit'>Complete Order</button></p>
+      </form>
+    </section>  
+    </div>  
+    
+    <aside class="span5" style="background-color: red;">
+      <h3>HAn</h3>
+      {% include "orders/order_summary.html" with order=order %}
+    </aside>
+  </div>
 {% endblock %}

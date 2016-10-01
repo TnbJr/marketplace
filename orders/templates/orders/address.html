@@ -9,9 +9,10 @@
 
 
 
-<div class='col-sm-4 col-sm-offset-4'>
-	<form method="POST" action='' id="address-form">
+<div class='col-sm-4 col-sm-offset-4' id="han-omg">
+	<form method="POST" action="{% url 'cart:api_checkout' %}" id="address-form">
 		{% csrf_token %}
+		<!-- {{form}} -->
 		<label> Select An Address</label>
 		<select name="item" class="form-cotrol variation_select">
 			{% for address in  user_address %}
@@ -20,9 +21,12 @@
 			</option>
 			{% endfor %}
 		</select>
-		<!-- {{ form|crispy }} -->
 
-		<!-- {{ form.non_field_errors }} -->
+		<div class="fieldWrapper">
+		    {{ form.user.errors }}
+		    <label class="shipping-form-label" for="{{ form.user.id_for_label }}">First Name:</label>
+		    {{ form.user }}
+		</div>
 		<div class="fieldWrapper">
 		    {{ form.first_name.errors }}
 		    <label class="shipping-form-label" for="{{ form.first_name.id_for_label }}">First Name:</label>
@@ -88,6 +92,6 @@
 			{% endfor %}
 		</div>
 
-		<input  type="submit" value="Submit" class="btn btn-default text-center" />
+		<input id="order-address-button" type="submit" value="Submit" class="btn btn-default text-center" />
 	</form>
 </div>

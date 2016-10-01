@@ -14,12 +14,15 @@ from .models import UserAddress, UserCheckout, Order
 class OrderDetail(LoginRequiredMixin, DetailView):
 	model = Order
 
+	def get(self, request, *args, **kwargs):
+		return JsonResponse({"hann": "hann"})
+
 	def dispatch(self, request, *args, **kwargs):
 		try:
 			user_checkout_id = self.request.session.get("user_checkout_id")
 			user_checkout =  UserCheckout.objects.get(id=user_checkout_id)
 		except UserCheckout.DoesNotExist:
-			user_checkout = UserCheckout.objects.get(user=request.user)
+			user_checkout = UserCheckout.objects.get(user=self.request.user)
 			user_checkout = request.user.usercheckout
 		except:
 			user_checkout = None

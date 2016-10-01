@@ -9,11 +9,11 @@
 	<!-- <script src="{% static 'sitemaps/js/superfish.js' %}"></script>
 		 -->
 	
-	<script src="{% static 'carts/js/custom.js' %}"></script>
 
 	<script src="{% static 'sitemaps/js/jquery.flexslider-min.js' %}"></script>
 	<script src="{% static 'sitemaps/js/jquery.fancybox.js' %}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
+	<script src="{% static 'carts/js/checkout.js' %}"></script>
 	<script type="text/javascript">
 			$(document).ready(function() {
 				console.log("javascript.html")
@@ -29,3 +29,6 @@
 				{% endblock %}
 			});
 	</script>
+
+	{% include 'carts/testform.html' %}
+	{% include 'carts/address_confirm.html' %}
