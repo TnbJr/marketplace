@@ -23,7 +23,9 @@
 										<p class="price">{{ forloop.counter }}</p>
 									</div>
 								</li>
+								{% if forloop.counter != 8%}
 								{% cycle '' '' '' '</ul></div><div class="item"><ul class="thumbnails">' %}
+								{% endif %}
 								{% endfor%}
 							</ul>
 						</div>

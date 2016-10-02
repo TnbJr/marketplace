@@ -14,26 +14,28 @@ from .models import UserAddress, UserCheckout, Order
 class OrderDetail(LoginRequiredMixin, DetailView):
 	model = Order
 
-	def get(self, request, *args, **kwargs):
-		return JsonResponse({"hann": "hann"})
-
 	def dispatch(self, request, *args, **kwargs):
 		try:
 			user_checkout_id = self.request.session.get("user_checkout_id")
 			user_checkout =  UserCheckout.objects.get(id=user_checkout_id)
+			("session info valid", user_checkout)
 		except UserCheckout.DoesNotExist:
-			user_checkout = UserCheckout.objects.get(user=self.request.user)
-			user_checkout = request.user.usercheckout
+			user_checkout = UserCheckout.objects.get(user=request.user)
+			print("user does not exist exception ", user_checkout)
 		except:
 			user_checkout = None
+			("your shit not valid user checkout")
 		obj = self.get_object()
-		if obj.user == user_checkout and user_checkout is not None:
+		if obj.user == user_checkout.user and user_checkout is not None:
+			print("dispatch is working")
 			return super(OrderDetail, self).dispatch(request, *args, **kwargs)
 		else:
+			print("this is the object usear", obj.user)
+			print ("this the userchekout before 404", user_checkout)
+			print(obj.user == user_checkout.user)
+			print("obj user type ", type(obj.user))
+			print("user_checl=kout type ", type(user_checkout))
 			raise Http404
-
-
-
 
 class OrderList(LoginRequiredMixin, ListView):
 	queryset = Order.objects.all()
@@ -44,8 +46,6 @@ class OrderList(LoginRequiredMixin, ListView):
 		print(self.request.user.id)
 		user_checkout = UserCheckout.objects.get(id=user_checkout_id)
 		return super(OrderList, self).get_queryset().filter(user=user_checkout)
-
-
 
 
 class UserAddressCreateView(CreateView):
@@ -63,62 +63,3 @@ class UserAddressCreateView(CreateView):
 		return super(UserAddressCreateView, self).form_valid(form, *args, **kwargs)
 
 
-
-# class AddressSelectFormView(CartOrderMixin, FormView):
-# 	form_class = AddressForm
-# 	template_name = "orders/address.html"
-
-
-# 	def dispatch(self, *args, **kwargs):
-# 		b_address, s_address = self.get_addresses()
-
-# 		if b_address.count() == 0:
-# 			messages.success(self.request, "Please add a billing address before checking out")
-# 			return redirect("order:address_create")
-# 		elif s_address.count() == 0:
-# 			return redirect("order:address_create")
-		
-# 		return super(AddressSelectFormView, self).dispatch(*args, **kwargs)
-
-
-
-# 	def get_addresses(self, *args, **kwargs):
-# 		user_checkout_id = self.request.session.get("user_checkout_id")
-# 		user_checkout = UserCheckout.objects.get(id=user_checkout_id)
-# 		b_address =  UserAddress.objects.filter(
-# 			user__email = user_checkout,
-# 			address_type= 'billing',
-# 			 )
-# 		s_address = UserAddress.objects.filter(
-# 			user__email = user_checkout,
-# 			address_type= 'shipping',
-# 			)
-# 		return b_address, s_address
-
-# 	def get_form(self, *args, **kwargs):
-# 		form = super(AddressSelectFormView, self).get_form(*args, **kwargs)
-# 		b_address, s_address = self.get_addresses()
-		
-			 
-# 		# if b_address.count() == 0 or s_address.count() == 0:
-# 		# 	return redirect("order:address_create")
-
-# 		form.fields["billing_address"].queryset = b_address
-# 		form.fields["shipping_address"].queryset = s_address
-
-# 		return form
-
-# 	def form_valid(self, form, *args, **kwargs):
-# 		billing_address = form.cleaned_data["billing_address"]
-# 		shipping_address = form.cleaned_data["shipping_address"]
-# 		order = self.get_order()
-# 		order.billing_address = billing_address
-# 		order.shipping_address = shipping_address
-# 		order.save()
-# 		# self.request.session["billing_address"] = billing_address.id
-# 		# self.request.session["shipping_address"] = shipping_address.id
-
-# 		return super(AddressSelectFormView, self).form_valid(form, *args, **kwargs)
-
-# 	def get_success_url(self):
-# 		return "/cart/checkout"
